@@ -7,9 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { UserService } from '../services/users.service';
-import { CreateUserDto, UpdateUserDto } from '../dto/create-user.dto';
+import {
+  CreateUserDto,
+  FilterUsersDto,
+  UpdateUserDto,
+} from '../dto/create-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -21,8 +26,8 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() params: FilterUsersDto) {
+    return this.userService.findAll(params);
   }
 
   @Get(':id')

@@ -7,7 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { CreateUserDto, UpdateUserDto } from '../dto/create-user.dto';
+import {
+  CreateUserDto,
+  FilterUsersDto,
+  UpdateUserDto,
+} from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -22,8 +26,12 @@ export class UserService {
     return this.usersRepo.save(newUser);
   }
 
-  findAll() {
-    return this.usersRepo.find();
+  findAll(params: FilterUsersDto) {
+    const { limit, offset } = params;
+    return this.usersRepo.find({
+      take: limit,
+      skip: offset,
+    });
   }
 
   async findOne(id: number) {
