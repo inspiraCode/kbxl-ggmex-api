@@ -18,7 +18,6 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-
   const config = new DocumentBuilder()
     .setTitle('KBXL - GGMEX API')
     .setDescription('The KBXL - GGMEX API description')

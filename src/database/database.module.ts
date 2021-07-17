@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Client } from 'pg';
 import configEnv from '../config';
 
-
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

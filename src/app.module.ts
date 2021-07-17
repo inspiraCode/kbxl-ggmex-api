@@ -9,10 +9,9 @@ import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import configEnv from './config';
 
-
-
 @Module({
-  imports: [UserModule,
+  imports: [
+    UserModule,
     ConfigModule.forRoot({
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
       load: [configEnv],
@@ -27,7 +26,8 @@ import configEnv from './config';
         PASSWORD: Joi.string().required(),
       }),
     }),
-    DatabaseModule],
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
