@@ -1,7 +1,5 @@
-import { PartialType } from '@nestjs/swagger';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
-  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsPositive,
@@ -9,13 +7,18 @@ import {
   Min,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateCustomerDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  readonly userName: string;
+  readonly customerNumber: string;
 
-  @IsEmail()
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly customerName: string;
+
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   readonly email: string;
@@ -23,22 +26,17 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  readonly password: string;
+  readonly phoneNumber: string;
 
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  readonly role: string;
-
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly customerId: number;
+  readonly mainContact: string;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
 
-export class FilterUsersDto {
+export class FilterCustomersDto {
   @IsPositive()
   @IsOptional()
   limit: number;

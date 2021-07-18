@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Customer } from './customer.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -41,4 +44,10 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
+
+  @ManyToOne(() => Customer, (customer) => customer.users, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'customer_id' })
+  customer: Customer;
 }

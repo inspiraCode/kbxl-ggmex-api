@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UserModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
+import { CarriersModule } from './carriers/carriers.module';
 import configEnv from './config';
 
 @Module({
@@ -27,6 +28,7 @@ import configEnv from './config';
       }),
     }),
     DatabaseModule,
+    CarriersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
