@@ -2,9 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Carrier } from './carrier.entity';
+import { Operator } from './operator.entity';
+import { Pm } from './pm.entity';
 
 @Entity({ name: 'equipments' })
 export class Equipment {
@@ -45,4 +52,22 @@ export class Equipment {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
+
+  @ManyToOne(() => Carrier, (carrier) => carrier.equipment)
+  carrier: Carrier[];
+
+  @ManyToMany(() => Operator, (operator) => operator.equipments)
+  @JoinTable({
+    name: 'equipments_operators',
+    joinColumn: {
+      name: 'equipment_id',
+    },
+    inverseJoinColumn: {
+      name: 'operator_id',
+    },
+  })
+  operators: Operator[];
+
+  @OneToMany(() => Pm, (pm) => pm.equipment)
+  Pms: Pm[];
 }

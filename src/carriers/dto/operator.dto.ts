@@ -33,6 +33,11 @@ export class CreateOperatorDto {
   @IsOptional()
   @ApiProperty()
   readonly docs: FileList[];
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly equipmentsIds: number[];
 }
 
 export class UpdateOperatorDto extends PartialType(CreateOperatorDto) {}

@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Equipment } from './equipment.entity';
+import { Operator } from './operator.entity';
 
 @Entity({ name: 'carriers' })
 export class Carrier {
@@ -48,6 +52,12 @@ export class Carrier {
   updateAt: Date;
 
   // operator relacion
+  @OneToMany(() => Operator, (operator) => operator.carrier)
+  @JoinColumn({ name: 'operator_id' })
+  operator: Operator;
 
   // equipmet relation
+  @OneToMany(() => Equipment, (equipment) => equipment.carrier)
+  @JoinColumn({ name: 'quipment_id' })
+  equipment: Equipment;
 }

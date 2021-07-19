@@ -28,6 +28,11 @@ export class CreatePmDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly comments: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly equipmentId: number;
 }
 
 export class UpdatePmDto extends PartialType(CreatePmDto) {}

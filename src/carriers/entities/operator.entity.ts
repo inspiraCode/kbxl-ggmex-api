@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Carrier } from './carrier.entity';
+import { Equipment } from './equipment.entity';
 
 @Entity({ name: 'operators' })
 export class Operator {
@@ -42,4 +46,10 @@ export class Operator {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
+
+  @ManyToOne(() => Carrier, (carrier) => carrier.operator)
+  carrier: Carrier[];
+
+  @ManyToMany(() => Equipment, (equiment) => equiment.operators)
+  equipments: Equipment[];
 }

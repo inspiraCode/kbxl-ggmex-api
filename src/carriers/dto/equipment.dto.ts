@@ -38,6 +38,11 @@ export class CreateEquipmentDto {
   @IsOptional()
   @ApiProperty()
   readonly docs: FileList[];
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly operatorsIds: number[];
 }
 
 export class UpdateEquipmentDto extends PartialType(CreateEquipmentDto) {}

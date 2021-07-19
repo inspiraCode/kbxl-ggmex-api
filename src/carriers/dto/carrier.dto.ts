@@ -35,6 +35,16 @@ export class CreateCarrierDto {
   @IsOptional()
   @ApiProperty()
   readonly docs: FileList[];
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly operatorsId: number[];
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly equipmetsId: number[];
 }
 
 export class UpdateCarrierDto extends PartialType(CreateCarrierDto) {}
