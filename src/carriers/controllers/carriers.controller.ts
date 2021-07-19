@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CarriersService } from './carriers.service';
-import { CreateCarrierDto } from './dto/create-carrier.dto';
-import { UpdateCarrierDto } from './dto/update-carrier.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
+import { CarriersService } from '../services/carriers.service';
 
+@ApiTags('carriers')
 @Controller('carriers')
 export class CarriersController {
   constructor(private readonly carriersService: CarriersService) {}

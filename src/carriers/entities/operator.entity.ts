@@ -6,29 +6,25 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'carriers' })
-export class Carrier {
+@Entity({ name: 'operators' })
+export class Operator {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'legal_name', type: 'varchar', length: 255 })
-  legalName: string;
+  @Column({ name: 'operator_name', type: 'varchar', length: 255 })
+  operatorName: string;
 
-  @Column({ name: 'comertial_name', type: 'varchar', length: 255 })
-  comertialName: string;
+  @Column({ name: 'license_number', type: 'varchar', length: 255 })
+  licenseNumber: string;
 
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  docs: FileList[];
+  @Column({ name: 'phone_number', type: 'varchar', length: 255 })
+  phoneNumber: string;
 
-  @Column({
-    name: 'hire_date',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  hireDate: Date;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  docs: FileList[];
 
   @Column({ name: 'is_enabled', type: 'boolean', default: true })
   isEnabled: boolean;
@@ -46,8 +42,4 @@ export class Carrier {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
-
-  // operator relacion
-
-  // equipmet relation
 }

@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCarrierDto } from './dto/create-carrier.dto';
-import { UpdateCarrierDto } from './dto/update-carrier.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
+import { Carrier } from '../entities/carrier.entity';
 
 @Injectable()
 export class CarriersService {
+  constructor(
+    @InjectRepository(Carrier) private carriersRepo: Repository<Carrier>,
+  ) {}
+
   create(createCarrierDto: CreateCarrierDto) {
     return 'This action adds a new carrier';
   }
