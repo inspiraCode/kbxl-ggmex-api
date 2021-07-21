@@ -35,7 +35,7 @@ export class CreateEquipmentDto {
   readonly kbxlEquipmentNumber: string;
 
   @IsArray()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   readonly docs: FileList[];
 

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
@@ -27,17 +28,20 @@ export class CarriersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.carriersService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.carriersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarrierDto: UpdateCarrierDto) {
-    return this.carriersService.update(+id, updateCarrierDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCarrierDto: UpdateCarrierDto,
+  ) {
+    return this.carriersService.update(id, updateCarrierDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carriersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.carriersService.remove(id);
   }
 }

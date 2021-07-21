@@ -13,19 +13,27 @@ export class Pm {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ name: 'start_date', type: 'timestamptz' })
+  @Column({
+    name: 'start_date',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   startDate: Date;
 
-  @CreateDateColumn({ name: 'end_date', type: 'timestamptz' })
+  @Column({
+    name: 'end_date',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   endDate: Date;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255 })
   evidence: FileList[];
 
   @Column({ type: 'varchar', length: 510 })
   comments: string;
 
-  @ManyToOne(() => Equipment, (equipment) => equipment.operators)
+  @ManyToOne(() => Equipment, (equipment) => equipment.Pms)
   @JoinColumn({ name: 'equipment_id' })
   equipment: Equipment;
 }

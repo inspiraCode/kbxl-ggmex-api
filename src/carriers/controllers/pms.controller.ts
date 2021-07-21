@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -27,17 +28,20 @@ export class PmsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pmsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.pmsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePmDto: UpdatePmDto) {
-    return this.pmsService.update(+id, updatePmDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePmDto: UpdatePmDto,
+  ) {
+    return this.pmsService.update(id, updatePmDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pmsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.pmsService.remove(id);
   }
 }

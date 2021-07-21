@@ -31,7 +31,7 @@ export class CreateUserDto {
   readonly role: string;
 
   @IsPositive()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly customerId: number;
 }

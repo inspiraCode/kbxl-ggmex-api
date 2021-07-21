@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -27,20 +28,20 @@ export class OperatorsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.operatorsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.operatorsService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateOperatorDto: UpdateOperatorDto,
   ) {
-    return this.operatorsService.update(+id, updateOperatorDto);
+    return this.operatorsService.update(id, updateOperatorDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.operatorsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.operatorsService.remove(id);
   }
 }

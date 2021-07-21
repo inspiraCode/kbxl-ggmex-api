@@ -3,6 +3,7 @@ import {
   IsArray,
   IsDate,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   IsString,
@@ -20,7 +21,7 @@ export class CreatePmDto {
   readonly endDate: Date;
 
   @IsArray()
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty()
   evidence: FileList[];
 
@@ -29,7 +30,7 @@ export class CreatePmDto {
   @ApiProperty()
   readonly comments: string;
 
-  @IsArray()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   readonly equipmentId: number;

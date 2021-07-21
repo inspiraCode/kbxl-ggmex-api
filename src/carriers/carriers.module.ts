@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CarriersController } from './controllers/carriers.controller';
 import { CarriersService } from './services/carriers.service';
@@ -15,7 +16,6 @@ import { Equipment } from './entities/equipment.entity';
 import { PmsController } from './controllers/pms.controller';
 import { PmsService } from './services/pms.service';
 import { Pm } from './entities/pm.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Carrier, Operator, Equipment, Pm])],
