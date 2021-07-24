@@ -7,9 +7,14 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateEquipmentDto, UpdateEquipmentDto } from '../dto/equipment.dto';
+import {
+  CreateEquipmentDto,
+  FilterEquipmentDto,
+  UpdateEquipmentDto,
+} from '../dto/equipment.dto';
 import { EquipmentsService } from '../services/equipments.service';
 
 @ApiTags('equipments')
@@ -23,8 +28,8 @@ export class EquipmentsController {
   }
 
   @Get()
-  findAll() {
-    return this.equipmentsService.findAll();
+  findAll(@Query() params: FilterEquipmentDto) {
+    return this.equipmentsService.findAll(params);
   }
 
   @Get(':id')

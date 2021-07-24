@@ -69,5 +69,5 @@ export class Equipment {
   operators: Operator[];
 
   @OneToMany(() => Pm, (pm) => pm.equipment)
-  Pms: Pm[];
+  pms: Pm[];
 }

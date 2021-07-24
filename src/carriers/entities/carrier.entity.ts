@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Equipment } from './equipment.entity';
 import { Operator } from './operator.entity';
+import { ShipmentByOrder } from 'src/orders/entities/shipment-by-order.entity';
 
 @Entity({ name: 'carriers' })
 export class Carrier {
@@ -60,4 +61,7 @@ export class Carrier {
   @OneToMany(() => Equipment, (equipment) => equipment.carrier)
   @JoinColumn({ name: 'quipment_id' })
   equipment: Equipment;
+
+  @OneToMany(() => ShipmentByOrder, (shipment) => shipment.carrier)
+  shipments: ShipmentByOrder[];
 }

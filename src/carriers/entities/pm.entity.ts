@@ -33,7 +33,7 @@ export class Pm {
   @Column({ type: 'varchar', length: 510 })
   comments: string;
 
-  @ManyToOne(() => Equipment, (equipment) => equipment.Pms)
+  @ManyToOne(() => Equipment, (equipment) => equipment.pms)
   @JoinColumn({ name: 'equipment_id' })
   equipment: Equipment;
 }

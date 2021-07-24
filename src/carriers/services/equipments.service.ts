@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateEquipmentDto, UpdateEquipmentDto } from '../dto/equipment.dto';
+import {
+  CreateEquipmentDto,
+  FilterEquipmentDto,
+  UpdateEquipmentDto,
+} from '../dto/equipment.dto';
 import { Equipment } from '../entities/equipment.entity';
 
 @Injectable()
@@ -15,13 +19,17 @@ export class EquipmentsService {
     return this.equipmentsRepo.save(newEquipment);
   }
 
-  findAll() {
-    return this.equipmentsRepo.find();
+  findAll(params: FilterEquipmentDto) {
+    const { limit, offset } = params;
+    return this.equipmentsRepo.find({
+      take: limit || 0,
+      skip: offset || 0,
+    });
   }
 
   findOne(id: number) {
     return this.equipmentsRepo.findOne(id, {
-      relations: ['pm'],
+      relations: ['pms'],
     });
   }
 

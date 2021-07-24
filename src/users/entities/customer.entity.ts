@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Entity({ name: 'customers' })
 export class Customer {
@@ -52,4 +53,7 @@ export class Customer {
 
   @OneToMany(() => User, (user) => user.customer, { nullable: true })
   users: User[];
+
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order;
 }
