@@ -57,7 +57,7 @@ export class ShipmentByOrder {
   status: string;
 
   @Column({ name: 'cancelation_reazon', type: 'varchar', nullable: true })
-  cancelationReazon: string;
+  cancelationReason: string;
 
   @Column({ name: 'is_enabled', type: 'boolean', default: true })
   isEnabled: boolean;

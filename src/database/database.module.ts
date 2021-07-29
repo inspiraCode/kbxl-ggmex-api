@@ -1,13 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Client } from 'pg';
-import { CarriersModule } from 'src/carriers/carriers.module';
-import { OrdersModule } from 'src/orders/orders.module';
-import { UserModule } from 'src/users/users.module';
 import configEnv from '../config';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

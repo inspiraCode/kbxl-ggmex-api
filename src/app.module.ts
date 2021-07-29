@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import { CarriersModule } from './carriers/carriers.module';
 import { OrdersModule } from './orders/orders.module';
+import { AuthModule } from './auth/auth.module';
 import configEnv from './config';
 
 @Module({
@@ -31,6 +32,7 @@ import configEnv from './config';
     DatabaseModule,
     CarriersModule,
     OrdersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
