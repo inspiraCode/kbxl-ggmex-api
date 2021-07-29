@@ -55,6 +55,13 @@ export class UserService {
     return user;
   }
 
+  async findByEmail(email: string) {
+    return this.usersRepo.findOne({ where: { email } });
+  }
+  async findByUsername(userName: string) {
+    return await this.usersRepo.findOne({ where: { userName } });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepo.findOne(id, {
       relations: ['customer'],
