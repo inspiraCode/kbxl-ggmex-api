@@ -7,11 +7,15 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
 import { CarriersService } from '../services/carriers.service';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('carriers')
 @Controller('carriers')
 export class CarriersController {
@@ -21,7 +25,7 @@ export class CarriersController {
   create(@Body() createCarrierDto: CreateCarrierDto) {
     return this.carriersService.create(createCarrierDto);
   }
-
+  @Public()
   @Get()
   findAll() {
     return this.carriersService.findAll();
