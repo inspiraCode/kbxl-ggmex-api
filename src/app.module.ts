@@ -21,6 +21,7 @@ import configEnv from './config';
       isGlobal: true,
       validationSchema: Joi.object({
         API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
         LOCAL_PORT: Joi.number().required(),
         DATABASE_NAME: Joi.string().required(),
         HOST: Joi.string().required(),
