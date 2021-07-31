@@ -74,13 +74,13 @@ export class UserService {
       user.customer = customer;
     }
 
+    this.usersRepo.merge(user, updateUserDto);
+
     if (updateUserDto.password) {
       const hashPassword = await bcrypt.hash(updateUserDto.password, 10);
       user.password = hashPassword;
-      console.log(user.password);
     }
 
-    // this.usersRepo.merge(user, updateUserDto);
     return this.usersRepo.save(user);
   }
 
