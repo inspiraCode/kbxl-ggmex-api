@@ -1,5 +1,6 @@
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -28,6 +29,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly role: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly isEnabled: boolean;
 
   @IsPositive()
   @IsOptional()

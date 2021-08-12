@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
 import {
@@ -37,7 +38,7 @@ export class OrdersController {
     return this.ordersService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateOrderDto: UpdateOrderDto,

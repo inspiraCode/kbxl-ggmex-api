@@ -40,6 +40,9 @@ export class UserService {
   findAll(params: FilterUsersDto) {
     const { limit, offset } = params;
     return this.usersRepo.find({
+      order: {
+        id: 'ASC',
+      },
       take: limit || 0,
       skip: offset || 0,
     });

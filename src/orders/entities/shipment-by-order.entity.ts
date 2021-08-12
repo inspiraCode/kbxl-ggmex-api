@@ -80,7 +80,7 @@ export class ShipmentByOrder {
   @JoinColumn({ name: 'carrier_id' })
   carrier: Carrier;
 
-  @ManyToOne(() => Order, (order) => order.shipmetsByOrder)
+  @ManyToOne(() => Order, (order) => order.shipmentsByOrder)
   @JoinColumn({ name: 'order_id' })
   order: Order;
 

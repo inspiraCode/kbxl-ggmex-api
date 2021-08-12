@@ -32,7 +32,11 @@ export class CarriersService {
   }
 
   findAll() {
-    return this.carriersRepo.find();
+    return this.carriersRepo.find({
+      order: {
+        id: 'ASC',
+      },
+    });
   }
 
   findOne(id: number) {

@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import { Customer } from 'src/users/entities/customer.entity';
 import {
   Column,
@@ -39,11 +40,32 @@ export class Order {
   })
   updateAt: Date;
 
+  // @Exclude()
   @OneToMany(() => ShipmentByOrder, (shipments) => shipments.order)
-  shipmetsByOrder: ShipmentByOrder[];
+  shipmentsByOrder: ShipmentByOrder[];
 
   // relation  manyToone with customer (customer_id)
+  @Exclude()
   @ManyToOne(() => Customer, (customer) => customer.orders)
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
+
+  // @Expose()
+  // get shipments() {
+  //   if (this.shipmentsByOrder) {
+  //     return this.shipmentsByOrder
+  //       .filter((item) => !!item)
+  //       .map((item) => ({
+  //         ...item,
+  //         carrier: item.carrier,
+  //       }));
+  //   }
+  // }
+
+  @Expose()
+  get customerName() {
+    if (this.customer) {
+      return this.customer.customerName;
+    }
+  }
 }

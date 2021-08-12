@@ -37,6 +37,7 @@ export class OrdersService {
   findAll(params: FilterOrderDto) {
     const { limit, offset } = params;
     return this.ordersRepo.find({
+      relations: ['customer'],
       take: limit || 0,
       skip: offset || 0,
     });
@@ -44,11 +45,7 @@ export class OrdersService {
 
   async findOne(id: number) {
     const order = await this.ordersRepo.findOne(id, {
-      relations: [
-        'shipmetsByOrder',
-        'shipmetsByOrder.carrier',
-        'shipmetsByOrder.route',
-      ],
+      relations: ['shipmentsByOrder', 'shipmentsByOrder.carrier'],
     });
     if (!order) {
       throw new NotFoundException(`Order #${id} not found!`);

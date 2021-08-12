@@ -55,6 +55,9 @@ export class ShipmentsByOrderService {
     const { limit, offset } = params;
     return this.shipmentByOrdersRepo.find({
       relations: ['carrier', 'route', 'order'],
+      order: {
+        id: 'ASC',
+      },
       take: limit || 0,
       skip: offset || 0,
     });

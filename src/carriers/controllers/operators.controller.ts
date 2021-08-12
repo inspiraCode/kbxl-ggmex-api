@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOperatorDto, UpdateOperatorDto } from '../dto/operator.dto';
@@ -32,7 +33,7 @@ export class OperatorsController {
     return this.operatorsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateOperatorDto: UpdateOperatorDto,
