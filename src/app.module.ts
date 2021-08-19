@@ -11,6 +11,7 @@ import { CarriersModule } from './carriers/carriers.module';
 import { OrdersModule } from './orders/orders.module';
 import { AuthModule } from './auth/auth.module';
 import configEnv from './config';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -29,6 +30,9 @@ import configEnv from './config';
         DATABASE_USER: Joi.string().required(),
         PASSWORD: Joi.string().required(),
       }),
+    }),
+    MulterModule.register({
+      dest: './uploads',
     }),
     DatabaseModule,
     CarriersModule,

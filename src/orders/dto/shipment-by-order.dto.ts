@@ -11,6 +11,11 @@ import {
 
 export class CreateShipmentByOrder {
   @IsNotEmpty()
+  @IsDate()
+  @ApiProperty()
+  readonly appointmentDate: Date;
+
+  @IsNotEmpty()
   @IsString()
   @ApiProperty()
   readonly shipmentNumber: string;
@@ -21,19 +26,34 @@ export class CreateShipmentByOrder {
   readonly customerName: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsString()
   @ApiProperty()
-  readonly appointmentDate: Date;
+  readonly city: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsString()
   @ApiProperty()
-  readonly deliveryDate: Date;
+  readonly state: string;
 
-  @IsNotEmpty()
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly deliveryTerms: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly ligisticsAgent: string;
+
+  @IsOptional()
   @IsNumber()
   @ApiProperty()
-  readonly weight: number;
+  readonly srFreight: number;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  readonly orderFreight: number;
 
   @IsNotEmpty()
   @IsString()
@@ -41,19 +61,49 @@ export class CreateShipmentByOrder {
   readonly truckType: string;
 
   @IsNotEmpty()
+  @IsDate()
+  @ApiProperty()
+  readonly deliveryDate: Date;
+
+  @IsOptional()
   @IsString()
   @ApiProperty()
-  readonly sRcomments: string;
+  readonly transportStatus: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly orderStatus: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly financialStatus: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   @ApiProperty()
-  readonly headerComments: string;
+  readonly weight: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @ApiProperty()
-  readonly status: string;
+  readonly TSM: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly srHeaderComments: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly orderHeaderComment: string;
+
+  // @IsNotEmpty()
+  // @IsString()
+  // @ApiProperty()
+  // readonly status: string;
 
   @IsOptional()
   @IsString()
@@ -79,6 +129,13 @@ export class CreateShipmentByOrder {
 export class UpdateShipmentByOrderDto extends PartialType(
   CreateShipmentByOrder,
 ) {}
+
+export class CreateShipmentsByOrder {
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly orderId: number;
+}
 
 export class FilterShipmentByOrderDto {
   @IsPositive()

@@ -38,6 +38,9 @@ export class OrdersService {
     const { limit, offset } = params;
     return this.ordersRepo.find({
       relations: ['customer'],
+      order: {
+        id: 'DESC',
+      },
       take: limit || 0,
       skip: offset || 0,
     });

@@ -12,6 +12,7 @@ import { ShipmentByOrder } from './entities/shipment-by-order.entity';
 import { RoutesController } from './controllers/routes.controller';
 import { RoutesService } from './services/routes.service';
 import { Route } from './entities/route.entity';
+
 import { UserModule } from 'src/users/users.module';
 import { CarriersModule } from 'src/carriers/carriers.module';
 import { ReadFileController } from './controllers/read-file.controller';
@@ -22,7 +23,12 @@ import { ReadFileController } from './controllers/read-file.controller';
     UserModule,
     CarriersModule,
   ],
-  controllers: [OrdersController, ShipmentsByOrderController, RoutesController, ReadFileController],
+  controllers: [
+    OrdersController,
+    ShipmentsByOrderController,
+    RoutesController,
+    ReadFileController,
+  ],
   providers: [OrdersService, ShipmentsByOrderService, RoutesService],
 })
 export class OrdersModule {}
