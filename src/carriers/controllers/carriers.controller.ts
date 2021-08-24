@@ -19,13 +19,13 @@ import { Role } from 'src/auth/models/roles.model';
 import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
 import { CarriersService } from '../services/carriers.service';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
+// @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('carriers')
 @Controller('carriers')
 export class CarriersController {
   constructor(private readonly carriersService: CarriersService) {}
 
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Post()
   create(@Body() createCarrierDto: CreateCarrierDto) {
     return this.carriersService.create(createCarrierDto);

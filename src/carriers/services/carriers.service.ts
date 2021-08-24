@@ -18,14 +18,18 @@ export class CarriersService {
   async create(createCarrierDto: CreateCarrierDto) {
     const newCarrier = await this.carriersRepo.create(createCarrierDto);
 
-    if (newCarrier.operator) {
-      const operator = await this.operatorsRepo.findOne(newCarrier.operator);
-      newCarrier.operator = operator;
+    if (createCarrierDto.operatorsId) {
+      const operators = await this.operatorsRepo.findByIds(
+        createCarrierDto.operatorsId,
+      );
+      newCarrier.operators = operators;
     }
 
-    if (newCarrier.equipment) {
-      const equipment = await this.equipmentsRepo.findOne(newCarrier.equipment);
-      newCarrier.equipment = equipment;
+    if (createCarrierDto.equipmetsId) {
+      const equipments = await this.equipmentsRepo.findByIds(
+        createCarrierDto.equipmetsId,
+      );
+      newCarrier.equipments = equipments;
     }
 
     return this.carriersRepo.save(newCarrier);
@@ -46,14 +50,16 @@ export class CarriersService {
   async update(id: number, updateCarrierDto: UpdateCarrierDto) {
     const carrier = await this.carriersRepo.findOne(id);
 
-    if (carrier.operator) {
-      const operator = await this.operatorsRepo.findOne(carrier.operator);
-      carrier.operator = operator;
+    if (updateCarrierDto.operatorsId) {
+      const operators = await this.operatorsRepo.findByIds(carrier.operators);
+      carrier.operators = operators;
     }
 
-    if (carrier.equipment) {
-      const equipment = await this.equipmentsRepo.findOne(carrier.equipment);
-      carrier.equipment = equipment;
+    if (updateCarrierDto.equipmetsId) {
+      const equipments = await this.equipmentsRepo.findByIds(
+        carrier.equipments,
+      );
+      carrier.equipments = equipments;
     }
 
     this.carriersRepo.merge(carrier, updateCarrierDto);

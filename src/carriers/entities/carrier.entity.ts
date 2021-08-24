@@ -10,6 +10,7 @@ import {
 import { Equipment } from './equipment.entity';
 import { Operator } from './operator.entity';
 import { ShipmentByOrder } from 'src/orders/entities/shipment-by-order.entity';
+import { Available } from './available.entity';
 
 @Entity({ name: 'carriers' })
 export class Carrier {
@@ -39,28 +40,29 @@ export class Carrier {
   isEnabled: boolean;
 
   @CreateDateColumn({
-    name: 'create_at',
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'update_at',
+    name: 'updated_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt: Date;
+  updatedAt: Date;
 
   // operator relacion
   @OneToMany(() => Operator, (operator) => operator.carrier)
-  @JoinColumn({ name: 'operator_id' })
-  operator: Operator;
+  operators: Operator[];
 
   // equipmet relation
   @OneToMany(() => Equipment, (equipment) => equipment.carrier)
-  @JoinColumn({ name: 'quipment_id' })
-  equipment: Equipment;
+  equipments: Equipment[];
+
+  @OneToMany(() => Available, (available) => available.carrier)
+  availables: Available[];
 
   @OneToMany(() => ShipmentByOrder, (shipment) => shipment.carrier)
   shipments: ShipmentByOrder[];

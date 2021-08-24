@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -12,6 +13,7 @@ import {
 import { Carrier } from './carrier.entity';
 import { Operator } from './operator.entity';
 import { Pm } from './pm.entity';
+import { UnitAvailable } from './unit-available.entity';
 
 @Entity({ name: 'equipments' })
 export class Equipment {
@@ -40,21 +42,22 @@ export class Equipment {
   isEnabled: boolean;
 
   @CreateDateColumn({
-    name: 'create_at',
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'update_at',
+    name: 'updated_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt: Date;
+  updatedAt: Date;
 
-  @ManyToOne(() => Carrier, (carrier) => carrier.equipment)
-  carrier: Carrier[];
+  @ManyToOne(() => Carrier, (carrier) => carrier.equipments)
+  @JoinColumn({ name: 'carrier_id' })
+  carrier: Carrier;
 
   @ManyToMany(() => Operator, (operator) => operator.equipments)
   @JoinTable({
@@ -70,4 +73,7 @@ export class Equipment {
 
   @OneToMany(() => Pm, (pm) => pm.equipment)
   pms: Pm[];
+
+  @OneToMany(() => UnitAvailable, (unitAvailable) => unitAvailable.equipment)
+  unitAvailable: UnitAvailable;
 }

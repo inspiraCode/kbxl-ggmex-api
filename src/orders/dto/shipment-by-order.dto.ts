@@ -144,5 +144,5 @@ export class FilterShipmentByOrderDto {
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  page: number;
 }

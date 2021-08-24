@@ -5,16 +5,37 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
+import * as yup from 'yup';
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { unlinkSync } from 'fs';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import readXlsxFile = require('read-excel-file/node');
+import Moment from 'moment';
+import moment = require('moment');
 
 const schema = {
   AppointmentDate: {
     prop: 'appointmentDate',
+    // dateNF: Date.parse('yyyy/mm/dd h:mm'),
+    // dateFormat: 'mm/dd/yyyy',
     type: Date,
+    // type: (value) => {
+    //   const dateFormatssss = new Date(value);
+    //   console.log(value);
+
+    //   // if (!dateFormatssss) {
+    //   //   throw new Error('invalid');
+    //   // }
+    //   const newDate = moment(value).format('MM-DD-YYYY');
+    //   // Date.parse(dateFormatssss);
+    //   // console.log(`Fecha: ${value}`);
+    //   console.log(`Fecha: ${dateFormatssss}`);
+    //   console.log(`Fecha: ${newDate}`);
+
+    //   // return dateFormatssss;
+    //   return newDate;
+    // },
   },
   SR: {
     prop: 'shipmentNumber',

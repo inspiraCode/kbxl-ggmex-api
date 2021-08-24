@@ -2,13 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Carrier } from './carrier.entity';
 import { Equipment } from './equipment.entity';
+import { UnitAvailable } from './unit-available.entity';
 
 @Entity({ name: 'operators' })
 export class Operator {
@@ -34,22 +37,26 @@ export class Operator {
   isEnabled: boolean;
 
   @CreateDateColumn({
-    name: 'create_at',
+    name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'update_at',
+    name: 'updated_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt: Date;
+  updatedAt: Date;
 
-  @ManyToOne(() => Carrier, (carrier) => carrier.operator)
-  carrier: Carrier[];
+  @ManyToOne(() => Carrier, (carrier) => carrier.operators)
+  @JoinColumn({ name: 'carrier_id' })
+  carrier: Carrier;
 
   @ManyToMany(() => Equipment, (equiment) => equiment.operators)
   equipments: Equipment[];
+
+  @OneToMany(() => UnitAvailable, (unitAvailable) => unitAvailable.operator)
+  unitAvailable: UnitAvailable;
 }

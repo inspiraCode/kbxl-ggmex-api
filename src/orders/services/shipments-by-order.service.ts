@@ -5,9 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
-
-import readXlsxFile = require('read-excel-file/node');
+import { Repository } from 'typeorm';
 
 import {
   CreateShipmentByOrder,
@@ -109,7 +107,6 @@ export class ShipmentsByOrderService {
     private shipmentByOrdersRepo: Repository<ShipmentByOrder>,
     @Inject(forwardRef(() => CarriersService))
     private carriersService: CarriersService,
-    private connection: Connection,
     // @InjectRepository(Carrier) private carriersRepo: Repository<Carrier>,
     @InjectRepository(Order) private ordersRepo: Repository<Order>,
     @InjectRepository(Route) private routesRepo: Repository<Route>,
@@ -154,14 +151,14 @@ export class ShipmentsByOrderService {
   }
 
   findAll(params: FilterShipmentByOrderDto) {
-    const { limit, offset } = params;
-    return this.shipmentByOrdersRepo.find({
+    const { limit, page } = params;
+    return this.shipmentByOrdersRepo.findAndCount({
       relations: ['carrier', 'route', 'order'],
       order: {
         id: 'ASC',
       },
       take: limit || 0,
-      skip: offset || 0,
+      skip: (page - 1) * limit,
     });
   }
 
