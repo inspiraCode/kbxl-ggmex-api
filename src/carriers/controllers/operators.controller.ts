@@ -33,6 +33,11 @@ export class OperatorsController {
     return this.operatorsService.findOne(id);
   }
 
+  @Get('carrier/:id')
+  findOperatorByCarrier(@Param('id', ParseIntPipe) id: number) {
+    return this.operatorsService.findOperatorByCarrier(id);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

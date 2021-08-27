@@ -3,6 +3,7 @@ import {
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   IsString,
@@ -33,6 +34,11 @@ export class CreateOperatorDto {
   @IsOptional()
   @ApiProperty()
   readonly docs: FileList[];
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly carrierId: number;
 
   @IsArray()
   @IsNotEmpty()

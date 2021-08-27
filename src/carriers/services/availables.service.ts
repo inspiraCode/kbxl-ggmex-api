@@ -41,7 +41,14 @@ export class AvailablesService {
   }
 
   findOne(id: number) {
-    return this.availableRepo.findOne(id);
+    return this.availableRepo.findOne(id, {
+      relations: [
+        'carrier',
+        'unitsAvailable',
+        'unitsAvailable.operator',
+        'unitsAvailable.equipment',
+      ],
+    });
   }
 
   async update(id: number, updateAvailable: UpdateAvailableDto) {

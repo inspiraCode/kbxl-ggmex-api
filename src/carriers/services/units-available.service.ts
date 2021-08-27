@@ -53,14 +53,26 @@ export class UnitsAvailableService {
   }
   async findAll() {
     return this.unitAvailableRepo.find({
-      // relations: ['available'],
+      relations: ['operator', 'equipment'],
       order: {
         id: 'ASC',
       },
     });
   }
   async findOne(id: number) {
-    return this.unitAvailableRepo.findOne(id);
+    return this.unitAvailableRepo.findOne(id, {
+      relations: ['operator', 'equipment'],
+    });
+  }
+
+  async findByAvailableId(id: number) {
+    return this.unitAvailableRepo.find({
+      where: { available: id },
+      relations: ['operator', 'equipment'],
+      order: {
+        id: 'DESC',
+      },
+    });
   }
   async update(id: number, updateUnitAvailable: UpdateUnitAvailableDto) {
     const unitAvailable = await this.unitAvailableRepo.findOne(id);

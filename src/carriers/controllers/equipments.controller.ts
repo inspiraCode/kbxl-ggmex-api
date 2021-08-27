@@ -33,6 +33,11 @@ export class EquipmentsController {
     return this.equipmentsService.findAll(params);
   }
 
+  @Get('carrier/:id')
+  findOneByCarrier(@Param('id', ParseIntPipe) id: number) {
+    return this.equipmentsService.findOneByCarrier(id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.equipmentsService.findOne(id);

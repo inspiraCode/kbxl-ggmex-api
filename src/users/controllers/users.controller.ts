@@ -21,6 +21,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('users')
@@ -28,12 +29,14 @@ import { Role } from 'src/auth/models/roles.model';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
+  @Public()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-  @Roles(Role.ADMIN)
+  @Public()
+  // @Roles(Role.ADMIN)
   @Get()
   findAll(@Query() params: FilterUsersDto) {
     return this.userService.findAll(params);

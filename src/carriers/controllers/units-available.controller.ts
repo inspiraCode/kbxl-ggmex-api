@@ -35,6 +35,11 @@ export class UnitsAvailableController {
     return this.unitAvailableService.findOne(id);
   }
 
+  @Get('available/:id')
+  findByAvailableId(@Param('id', ParseIntPipe) id: number) {
+    return this.unitAvailableService.findByAvailableId(id);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
