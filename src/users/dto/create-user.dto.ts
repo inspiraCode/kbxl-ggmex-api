@@ -39,6 +39,11 @@ export class CreateUserDto {
   @IsOptional()
   @ApiProperty()
   readonly customerId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly carrierId: number;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

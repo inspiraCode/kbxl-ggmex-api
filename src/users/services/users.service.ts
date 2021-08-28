@@ -14,12 +14,14 @@ import {
 } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { Customer } from '../entities/customer.entity';
+import { Carrier } from 'src/carriers/entities/carrier.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private usersRepo: Repository<User>,
     @InjectRepository(Customer) private customersRepo: Repository<Customer>,
+    @InjectRepository(Carrier) private carriersRepo: Repository<Carrier>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -32,6 +34,10 @@ export class UserService {
         createUserDto.customerId,
       );
       newUser.customer = customer;
+    }
+    if (createUserDto.carrierId) {
+      const carrier = await this.carriersRepo.findOne(createUserDto.carrierId);
+      newUser.carrier = carrier;
     }
 
     return this.usersRepo.save(newUser);
@@ -50,7 +56,7 @@ export class UserService {
 
   async findOne(id: number) {
     const user = await this.usersRepo.findOne(id, {
-      relations: ['customer'],
+      relations: ['customer', 'carrier'],
     });
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -62,12 +68,15 @@ export class UserService {
     return this.usersRepo.findOne({ where: { email } });
   }
   async findByUsername(userName: string) {
-    return await this.usersRepo.findOne({ where: { userName } });
+    return await this.usersRepo.findOne({
+      where: { userName },
+      relations: ['customer', 'carrier'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepo.findOne(id, {
-      relations: ['customer'],
+      relations: ['customer', 'carrier'],
     });
 
     if (updateUserDto.customerId) {
@@ -75,6 +84,11 @@ export class UserService {
         updateUserDto.customerId,
       );
       user.customer = customer;
+    }
+
+    if (updateUserDto.carrierId) {
+      const carrier = await this.carriersRepo.findOne(updateUserDto.carrierId);
+      user.carrier = carrier;
     }
 
     this.usersRepo.merge(user, updateUserDto);

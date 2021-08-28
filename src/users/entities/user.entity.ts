@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Customer } from './customer.entity';
+import { Carrier } from 'src/carriers/entities/carrier.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -56,4 +57,10 @@ export class User {
   })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
+
+  @ManyToOne(() => Carrier, (carrier) => carrier.users, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'carrier_id' })
+  carrier: Carrier;
 }

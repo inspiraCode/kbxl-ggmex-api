@@ -11,6 +11,7 @@ import { Equipment } from './equipment.entity';
 import { Operator } from './operator.entity';
 import { ShipmentByOrder } from 'src/orders/entities/shipment-by-order.entity';
 import { Available } from './available.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity({ name: 'carriers' })
 export class Carrier {
@@ -66,4 +67,7 @@ export class Carrier {
 
   @OneToMany(() => ShipmentByOrder, (shipment) => shipment.carrier)
   shipments: ShipmentByOrder[];
+
+  @OneToMany(() => User, (user) => user.carrier, { nullable: true })
+  users: User[];
 }
