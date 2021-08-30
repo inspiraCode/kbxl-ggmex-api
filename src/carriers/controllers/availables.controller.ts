@@ -32,6 +32,11 @@ export class AvailablesController {
     return this.availableService.findOne(id);
   }
 
+  @Get('carrier/:id')
+  findByCarrierId(@Param('id', ParseIntPipe) id: number) {
+    return this.availableService.findByCarrierId(id);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

@@ -40,14 +40,26 @@ export class AvailablesService {
     });
   }
 
-  findOne(id: number) {
-    return this.availableRepo.findOne(id, {
+  async findOne(id: number) {
+    return await this.availableRepo.findOne(id, {
       relations: [
         'carrier',
         'unitsAvailable',
         'unitsAvailable.operator',
         'unitsAvailable.equipment',
       ],
+      order: {
+        id: 'ASC',
+      },
+    });
+  }
+
+  async findByCarrierId(id: number) {
+    return await this.availableRepo.find({
+      where: { carrier: id },
+      order: {
+        id: 'ASC',
+      },
     });
   }
 

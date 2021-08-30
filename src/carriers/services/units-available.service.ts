@@ -15,8 +15,8 @@ export class UnitsAvailableService {
   constructor(
     @InjectRepository(UnitAvailable)
     private unitAvailableRepo: Repository<UnitAvailable>,
-    @InjectRepository(UnitAvailable)
-    private AvailableRepo: Repository<Available>,
+    @InjectRepository(Available)
+    private availableRepo: Repository<Available>,
     @InjectRepository(Equipment)
     private equipmentRepo: Repository<Equipment>,
     @InjectRepository(Operator)
@@ -29,7 +29,7 @@ export class UnitsAvailableService {
     );
 
     if (createUnitAvailable.availableId) {
-      const available = await this.AvailableRepo.findOne(
+      const available = await this.availableRepo.findOne(
         createUnitAvailable.availableId,
       );
       newUnitAvailable.available = available;
@@ -78,7 +78,7 @@ export class UnitsAvailableService {
     const unitAvailable = await this.unitAvailableRepo.findOne(id);
 
     if (updateUnitAvailable.availableId) {
-      const available = await this.AvailableRepo.findOne(
+      const available = await this.availableRepo.findOne(
         updateUnitAvailable.availableId,
       );
       unitAvailable.available = available;
