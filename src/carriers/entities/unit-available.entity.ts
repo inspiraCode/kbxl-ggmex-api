@@ -16,6 +16,9 @@ export class UnitAvailable {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'is_available', type: 'boolean', default: true })
+  isAvailable: boolean;
+
   @Column({ type: 'varchar', length: 100, nullable: true })
   reason: string;
 

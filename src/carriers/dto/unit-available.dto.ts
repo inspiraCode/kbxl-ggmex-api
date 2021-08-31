@@ -1,5 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDate,
   IsNotEmpty,
   IsOptional,
@@ -13,6 +14,11 @@ export class CreateUnitAvailableDto {
   @IsDate()
   @ApiProperty()
   readonly commitmentDate: Date;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly isAvailable: boolean;
 
   @IsString()
   @IsOptional()
