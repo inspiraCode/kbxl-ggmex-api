@@ -23,12 +23,12 @@ import { MulterModule } from '@nestjs/platform-express';
       validationSchema: Joi.object({
         API_KEY: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
-        LOCAL_PORT: Joi.number().required(),
-        DATABASE_NAME: Joi.string().required(),
-        HOST: Joi.string().required(),
         PORT: Joi.number().required(),
-        DATABASE_USER: Joi.string().required(),
-        PASSWORD: Joi.string().required(),
+        DB_NAME: Joi.string().required(),
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.number().required(),
+        DB_USER: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
       }),
     }),
     MulterModule.register({
