@@ -7,9 +7,15 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateAvailableDto, UpdateAvailableDto } from '../dto/available.dto';
+import { Request } from 'express';
+import {
+  CreateAvailableDto,
+  CurrentDateParams,
+  UpdateAvailableDto,
+} from '../dto/available.dto';
 import { AvailablesService } from '../services/availables.service';
 
 @ApiTags('availables')
@@ -25,6 +31,14 @@ export class AvailablesController {
   @Get()
   findAll() {
     return this.availableService.findAll();
+  }
+
+  @Get('plans/:startDate/current-date/:endDate')
+  findAvailableDate(
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+  ) {
+    return this.availableService.findAvailableDate(startDate, endDate);
   }
 
   @Get(':id')

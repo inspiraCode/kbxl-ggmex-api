@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Equal, LessThan, MoreThan, Raw, Repository } from 'typeorm';
 
 import { CreateAvailableDto, UpdateAvailableDto } from '../dto/available.dto';
 import { Available } from '../entities/available.entity';
@@ -54,11 +54,29 @@ export class AvailablesService {
     });
   }
 
+  async find(id: number) {
+    return await this.availableRepo.find({
+      where: { carrier: id },
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
   async findByCarrierId(id: number) {
     return await this.availableRepo.find({
       where: { carrier: id },
       order: {
         id: 'DESC',
+      },
+    });
+  }
+
+  async findAvailableDate(startDate, endDate) {
+    return await this.availableRepo.find({
+      relations: ['carrier'],
+      where: {
+        availableDateCommmit: Between(startDate, endDate),
       },
     });
   }

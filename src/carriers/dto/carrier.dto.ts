@@ -21,6 +21,16 @@ export class CreateCarrierDto {
   @ApiProperty()
   readonly comertialName: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly scac: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly caat: string;
+
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty()

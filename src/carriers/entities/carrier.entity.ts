@@ -24,6 +24,12 @@ export class Carrier {
   @Column({ name: 'comertial_name', type: 'varchar', length: 255 })
   comertialName: string;
 
+  @Column({ type: 'varchar', length: 10 })
+  scac: string;
+
+  @Column({ type: 'varchar', length: 10 })
+  caat: string;
+
   @Column({ type: 'varchar', length: 255 })
   email: string;
 

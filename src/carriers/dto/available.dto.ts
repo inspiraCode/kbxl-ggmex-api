@@ -27,6 +27,13 @@ export class CreateAvailableDto {
 
 export class UpdateAvailableDto extends PartialType(CreateAvailableDto) {}
 
+export class CurrentDateParams {
+  @IsString()
+  startDate: string;
+  @IsString()
+  endDate: string;
+}
+
 export class FilterAvailableDto {
   @IsPositive()
   @IsOptional()
