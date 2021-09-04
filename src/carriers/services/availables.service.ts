@@ -69,12 +69,18 @@ export class AvailablesService {
       order: {
         id: 'DESC',
       },
+      relations: ['unitsAvailable'],
     });
   }
 
   async findAvailableDate(startDate, endDate) {
     return await this.availableRepo.find({
-      relations: ['carrier'],
+      relations: [
+        'carrier',
+        'unitsAvailable',
+        'unitsAvailable.operator',
+        'unitsAvailable.equipment',
+      ],
       where: {
         availableDateCommmit: Between(startDate, endDate),
       },
