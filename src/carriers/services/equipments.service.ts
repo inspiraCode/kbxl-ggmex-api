@@ -29,11 +29,14 @@ export class EquipmentsService {
   }
 
   findAll(params: FilterEquipmentDto) {
-    const { limit, offset } = params;
-    return this.equipmentsRepo.find({
+    const { limit, page } = params;
+    return this.equipmentsRepo.findAndCount({
       relations: ['carrier'],
+      order: {
+        id: 'ASC',
+      },
       take: limit || 0,
-      skip: offset || 0,
+      skip: (page - 1) * limit,
     });
   }
 
@@ -43,9 +46,15 @@ export class EquipmentsService {
     });
   }
 
-  findOneByCarrier(id: number) {
-    return this.equipmentsRepo.find({
+  findOneByCarrier(id: number, params: FilterEquipmentDto) {
+    const { limit, page } = params;
+    return this.equipmentsRepo.findAndCount({
       where: { carrier: id },
+      order: {
+        id: 'ASC',
+      },
+      take: limit || 0,
+      skip: (page - 1) * limit,
     });
   }
 

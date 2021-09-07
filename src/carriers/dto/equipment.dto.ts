@@ -60,5 +60,5 @@ export class FilterEquipmentDto {
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  page: number;
 }

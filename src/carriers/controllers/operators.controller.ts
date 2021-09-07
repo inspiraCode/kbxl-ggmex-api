@@ -8,9 +8,14 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateOperatorDto, UpdateOperatorDto } from '../dto/operator.dto';
+import {
+  CreateOperatorDto,
+  FilterOperatorDto,
+  UpdateOperatorDto,
+} from '../dto/operator.dto';
 import { OperatorsService } from '../services/operators.service';
 
 @ApiTags('operators')
@@ -24,8 +29,8 @@ export class OperatorsController {
   }
 
   @Get()
-  findAll() {
-    return this.operatorsService.findAll();
+  findAll(@Query() params: FilterOperatorDto) {
+    return this.operatorsService.findAll(params);
   }
 
   @Get(':id')
@@ -34,8 +39,11 @@ export class OperatorsController {
   }
 
   @Get('carrier/:id')
-  findOperatorByCarrier(@Param('id', ParseIntPipe) id: number) {
-    return this.operatorsService.findOperatorByCarrier(id);
+  findOperatorByCarrier(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() params: FilterOperatorDto,
+  ) {
+    return this.operatorsService.findOperatorByCarrier(id, params);
   }
 
   @Put(':id')

@@ -55,5 +55,5 @@ export class FilterOperatorDto {
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  page: number;
 }
