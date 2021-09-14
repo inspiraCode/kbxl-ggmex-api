@@ -32,6 +32,9 @@ export class Available {
   })
   availableDateCommmit: Date;
 
+  @Column({ name: 'available_status', type: 'boolean', default: false })
+  availableStatus: boolean;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

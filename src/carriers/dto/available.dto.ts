@@ -1,5 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDate,
   IsNotEmpty,
   IsOptional,
@@ -18,6 +19,11 @@ export class CreateAvailableDto {
   @IsOptional()
   @ApiProperty()
   readonly availableComments: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly availableStatus: boolean;
 
   @IsPositive()
   @IsNotEmpty()
