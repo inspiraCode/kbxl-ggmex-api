@@ -8,12 +8,14 @@ import {
 } from '../dto/equipment.dto';
 import { Carrier } from '../entities/carrier.entity';
 import { Equipment } from '../entities/equipment.entity';
+import { Operator } from '../entities/operator.entity';
 
 @Injectable()
 export class EquipmentsService {
   constructor(
     @InjectRepository(Equipment) private equipmentsRepo: Repository<Equipment>,
     @InjectRepository(Carrier) private carriersRepo: Repository<Carrier>,
+    @InjectRepository(Operator) private operatorsRepo: Repository<Operator>,
   ) {}
   async create(createEquipmentDto: CreateEquipmentDto) {
     const newEquipment = await this.equipmentsRepo.create(createEquipmentDto);
@@ -23,6 +25,13 @@ export class EquipmentsService {
         createEquipmentDto.carrierId,
       );
       newEquipment.carrier = carrier;
+    }
+
+    if (createEquipmentDto.operatorsIds) {
+      const operators = await this.operatorsRepo.findByIds(
+        createEquipmentDto.operatorsIds,
+      );
+      newEquipment.operators = operators;
     }
 
     return this.equipmentsRepo.save(newEquipment);

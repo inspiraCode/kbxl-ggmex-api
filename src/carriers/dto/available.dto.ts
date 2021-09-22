@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   IsString,

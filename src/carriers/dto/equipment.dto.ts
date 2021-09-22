@@ -46,7 +46,7 @@ export class CreateEquipmentDto {
   readonly docs: FileList[];
 
   @IsArray()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly operatorsIds: number[];
 }

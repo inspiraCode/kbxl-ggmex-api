@@ -7,14 +7,18 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import {
   CreateUnitAvailableDto,
   UpdateUnitAvailableDto,
 } from '../dto/unit-available.dto';
 import { UnitsAvailableService } from '../services/units-available.service';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('units-available')
 @Controller('units-available')
 export class UnitsAvailableController {

@@ -44,6 +44,11 @@ export class CreateUnitAvailableDto {
   @IsOptional()
   @ApiProperty()
   readonly equipmentId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly equipmentPlataform1Id: number;
 }
 
 export class UpdateUnitAvailableDto extends PartialType(

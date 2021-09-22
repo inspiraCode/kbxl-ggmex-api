@@ -53,7 +53,7 @@ export class UnitsAvailableService {
   }
   async findAll() {
     return this.unitAvailableRepo.find({
-      relations: ['operator', 'equipment'],
+      relations: ['operator', 'equipment', 'equipmentPlataform1'],
       order: {
         id: 'ASC',
       },
@@ -61,14 +61,14 @@ export class UnitsAvailableService {
   }
   async findOne(id: number) {
     return this.unitAvailableRepo.findOne(id, {
-      relations: ['operator', 'equipment'],
+      relations: ['operator', 'equipment', 'equipmentPlataform1'],
     });
   }
 
   async findByAvailableId(id: number) {
     return this.unitAvailableRepo.find({
       where: { available: id },
-      relations: ['operator', 'equipment'],
+      relations: ['operator', 'equipment', 'equipmentPlataform1'],
       order: {
         id: 'DESC',
       },
@@ -90,6 +90,14 @@ export class UnitsAvailableService {
       );
       unitAvailable.equipment = equiment;
     }
+
+    if (updateUnitAvailable.equipmentPlataform1Id) {
+      const equimentP1 = await this.equipmentRepo.findOne(
+        updateUnitAvailable.equipmentPlataform1Id,
+      );
+      unitAvailable.equipmentPlataform1 = equimentP1;
+    }
+
     if (updateUnitAvailable.operatorId) {
       const operator = await this.operatorRepo.findOne(
         updateUnitAvailable.operatorId,

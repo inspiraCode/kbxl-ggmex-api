@@ -66,4 +66,8 @@ export class UnitAvailable {
   @ManyToOne(() => Equipment, (equipment) => equipment.unitAvailable)
   @JoinColumn({ name: 'equipment_id' })
   equipment: Equipment;
+
+  @ManyToOne(() => Equipment, (equipment) => equipment.unitAvailable)
+  @JoinColumn({ name: 'equipment_plataform_1_id' })
+  equipmentPlataform1: Equipment;
 }
