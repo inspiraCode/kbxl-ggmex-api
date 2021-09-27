@@ -42,6 +42,13 @@ export class UnitsAvailableService {
       newUnitAvailable.equipment = equipment;
     }
 
+    if (createUnitAvailable.equipmentPlataform1Id) {
+      const equimentP1 = await this.equipmentRepo.findOne(
+        createUnitAvailable.equipmentPlataform1Id,
+      );
+      newUnitAvailable.equipmentPlataform1 = equimentP1;
+    }
+
     if (createUnitAvailable.operatorId) {
       const operator = await this.operatorRepo.findOne(
         createUnitAvailable.operatorId,
