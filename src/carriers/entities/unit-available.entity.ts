@@ -19,6 +19,9 @@ export class UnitAvailable {
   @Column({ name: 'is_available', type: 'boolean', default: true })
   isAvailable: boolean;
 
+  @Column({ name: 'is_platform_available', type: 'boolean', default: false })
+  isPlatformAvailable: boolean;
+
   @Column({ type: 'varchar', length: 100, nullable: true })
   reason: string;
 
@@ -29,6 +32,22 @@ export class UnitAvailable {
     nullable: true,
   })
   reasonComments: string;
+
+  @Column({
+    name: 'reason_platform',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+  })
+  reasonPlatform: string;
+
+  @Column({
+    name: 'reason_comments_platform',
+    type: 'varchar',
+    length: 355,
+    nullable: true,
+  })
+  reasonCommentsPlatform: string;
 
   @CreateDateColumn({
     name: 'commitment_date',

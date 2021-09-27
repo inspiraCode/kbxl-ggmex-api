@@ -20,6 +20,11 @@ export class CreateUnitAvailableDto {
   @ApiProperty()
   readonly isAvailable: boolean;
 
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty()
+  readonly isPlatformAvailable: boolean;
+
   @IsString()
   @IsOptional()
   @ApiProperty()
@@ -29,6 +34,16 @@ export class CreateUnitAvailableDto {
   @IsOptional()
   @ApiProperty()
   readonly reasonComments: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  readonly reasonPlatform: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  readonly reasonCommentsPlatform: string;
 
   @IsPositive()
   @IsNotEmpty()
