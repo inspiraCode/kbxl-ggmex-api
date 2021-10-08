@@ -16,11 +16,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column({ name: 'first_name', type: 'varchar', length: 100, unique: true })
-  // firstName: string;
+  @Column({ name: 'first_name', type: 'varchar', length: 100, default: 'null' })
+  firstName: string;
 
-  // @Column({ name: 'last_name', type: 'varchar', length: 100, unique: true })
-  // lastName: string;
+  @Column({ name: 'last_name', type: 'varchar', length: 100, default: 'null' })
+  lastName: string;
 
   @Column({ name: 'user_name', type: 'varchar', length: 100, unique: true })
   userName: string;

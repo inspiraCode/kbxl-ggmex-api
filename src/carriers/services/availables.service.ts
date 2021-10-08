@@ -80,6 +80,7 @@ export class AvailablesService {
         'unitsAvailable',
         'unitsAvailable.operator',
         'unitsAvailable.equipment',
+        'unitsAvailable.equipmentPlataform1',
       ],
       where: {
         availableDateCommmit: Between(startDate, endDate),
