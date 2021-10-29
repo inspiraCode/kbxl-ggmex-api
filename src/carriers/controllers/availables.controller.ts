@@ -35,8 +35,8 @@ export class AvailablesController {
 
   @Get('plans/:startDate/current-date/:endDate')
   findAvailableDate(
-    @Param('startDate') startDate: string,
-    @Param('endDate') endDate: string,
+    @Param('startDate') startDate: Date,
+    @Param('endDate') endDate: Date,
   ) {
     return this.availableService.findAvailableDate(startDate, endDate);
   }

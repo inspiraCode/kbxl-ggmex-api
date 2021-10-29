@@ -57,6 +57,11 @@ export class ShipmentsByOrderController {
     return this.shipmentByOrdersService.findOne(id);
   }
 
+  @Get('order/:id')
+  findOneByOrder(@Param('id', ParseIntPipe) id: number) {
+    return this.shipmentByOrdersService.findOneByOrder(id);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

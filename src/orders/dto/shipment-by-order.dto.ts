@@ -124,6 +124,16 @@ export class CreateShipmentByOrder {
   @IsOptional()
   @ApiProperty()
   readonly routeId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly equipmentId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly equipmentPlataform1Id: number;
 }
 
 export class UpdateShipmentByOrderDto extends PartialType(

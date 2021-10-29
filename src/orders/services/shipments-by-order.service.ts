@@ -14,10 +14,11 @@ import {
   UpdateShipmentByOrderDto,
 } from '../dto/shipment-by-order.dto';
 import { ShipmentByOrder } from '../entities/shipment-by-order.entity';
-import { Carrier } from '../../carriers/entities/carrier.entity';
 import { Order } from '../entities/order.entity';
 import { Route } from '../entities/route.entity';
+
 import { CarriersService } from 'src/carriers/services/carriers.service';
+import { EquipmentsService } from 'src/carriers/services/equipments.service';
 
 const schema = {
   AppointmentDate: {
@@ -107,7 +108,9 @@ export class ShipmentsByOrderService {
     private shipmentByOrdersRepo: Repository<ShipmentByOrder>,
     @Inject(forwardRef(() => CarriersService))
     private carriersService: CarriersService,
-    // @InjectRepository(Carrier) private carriersRepo: Repository<Carrier>,
+    @Inject(forwardRef(() => EquipmentsService))
+    private equipmentsService: EquipmentsService,
+
     @InjectRepository(Order) private ordersRepo: Repository<Order>,
     @InjectRepository(Route) private routesRepo: Repository<Route>,
   ) {}
@@ -164,7 +167,13 @@ export class ShipmentsByOrderService {
 
   async findOne(id: number) {
     const shipmentByOrder = await this.shipmentByOrdersRepo.findOne(id, {
-      relations: ['carrier', 'route', 'order'],
+      relations: [
+        'carrier',
+        'route',
+        'order',
+        'equipment',
+        'equipmentPlataform1',
+      ],
     });
     if (!shipmentByOrder) {
       throw new NotFoundException(`ShipmentByOrder #${id} not found`);
@@ -172,12 +181,25 @@ export class ShipmentsByOrderService {
     return shipmentByOrder;
   }
 
+  async findOneByOrder(id: number) {
+    return await this.shipmentByOrdersRepo.find({
+      relations: [
+        'carrier',
+        'route',
+        'order',
+        'equipment',
+        'equipmentPlataform1',
+      ],
+      where: { order: id },
+      order: { id: 'ASC' },
+    });
+  }
+
   async update(id: number, data: UpdateShipmentByOrderDto) {
     const shipmentByOrder = await this.shipmentByOrdersRepo.findOne(id);
 
     if (data.carrierId) {
       const carrier = await this.carriersService.findOne(data.carrierId);
-
       shipmentByOrder.carrier = carrier;
     }
 
@@ -191,7 +213,19 @@ export class ShipmentsByOrderService {
       shipmentByOrder.route = route;
     }
 
-    this.shipmentByOrdersRepo.merge(shipmentByOrder, data);
+    if (data.equipmentId) {
+      const equipment = await this.equipmentsService.findOne(data.equipmentId);
+      shipmentByOrder.equipment = equipment;
+    }
+
+    if (data.equipmentPlataform1Id) {
+      const equipmentPlataform1 = await this.equipmentsService.findOne(
+        data.equipmentPlataform1Id,
+      );
+      shipmentByOrder.equipmentPlataform1 = equipmentPlataform1;
+    }
+
+    // this.shipmentByOrdersRepo.merge(shipmentByOrder, data);
     return this.shipmentByOrdersRepo.save(shipmentByOrder);
   }
 

@@ -1,3 +1,4 @@
+import { ShipmentByOrder } from 'src/orders/entities/shipment-by-order.entity';
 import {
   Column,
   CreateDateColumn,
@@ -76,4 +77,10 @@ export class Equipment {
 
   @OneToMany(() => UnitAvailable, (unitAvailable) => unitAvailable.equipment)
   unitAvailable: UnitAvailable;
+
+  @OneToMany(
+    () => ShipmentByOrder,
+    (shipmentByOrder) => shipmentByOrder.equipment,
+  )
+  shipmentByOrder: ShipmentByOrder;
 }

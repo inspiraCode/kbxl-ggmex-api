@@ -10,6 +10,7 @@ import {
 import { Order } from './order.entity';
 import { Route } from './route.entity';
 import { Carrier } from '../../carriers/entities/carrier.entity';
+import { Equipment } from 'src/carriers/entities/equipment.entity';
 
 @Entity({ name: 'shipments_by_orders' })
 export class ShipmentByOrder {
@@ -149,4 +150,12 @@ export class ShipmentByOrder {
   @ManyToOne(() => Route)
   @JoinColumn({ name: 'route_id' })
   route: Route;
+
+  @ManyToOne(() => Equipment, (equipment) => equipment.shipmentByOrder)
+  @JoinColumn({ name: 'equipment_id' })
+  equipment: Equipment;
+
+  @ManyToOne(() => Equipment, (equipment) => equipment.shipmentByOrder)
+  @JoinColumn({ name: 'equipment_plataform_1_id' })
+  equipmentPlataform1: Equipment;
 }
