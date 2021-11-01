@@ -198,6 +198,8 @@ export class ShipmentsByOrderService {
   async update(id: number, data: UpdateShipmentByOrderDto) {
     const shipmentByOrder = await this.shipmentByOrdersRepo.findOne(id);
 
+    this.shipmentByOrdersRepo.merge(shipmentByOrder, data);
+
     if (data.carrierId) {
       const carrier = await this.carriersService.findOne(data.carrierId);
       shipmentByOrder.carrier = carrier;
@@ -225,7 +227,6 @@ export class ShipmentsByOrderService {
       shipmentByOrder.equipmentPlataform1 = equipmentPlataform1;
     }
 
-    // this.shipmentByOrdersRepo.merge(shipmentByOrder, data);
     return this.shipmentByOrdersRepo.save(shipmentByOrder);
   }
 
