@@ -17,25 +17,7 @@ import moment = require('moment');
 const schema = {
   AppointmentDate: {
     prop: 'appointmentDate',
-    // dateNF: Date.parse('yyyy/mm/dd h:mm'),
-    // dateFormat: 'mm/dd/yyyy',
-    type: Date,
-    // type: (value) => {
-    //   const dateFormatssss = new Date(value);
-    //   console.log(value);
-
-    //   // if (!dateFormatssss) {
-    //   //   throw new Error('invalid');
-    //   // }
-    //   const newDate = moment(value).format('MM-DD-YYYY');
-    //   // Date.parse(dateFormatssss);
-    //   // console.log(`Fecha: ${value}`);
-    //   console.log(`Fecha: ${dateFormatssss}`);
-    //   console.log(`Fecha: ${newDate}`);
-
-    //   // return dateFormatssss;
-    //   return newDate;
-    // },
+    type: String,
   },
   SR: {
     prop: 'shipmentNumber',
@@ -75,7 +57,7 @@ const schema = {
   },
   DeliveryDate: {
     prop: 'deliveryDate',
-    type: Date,
+    type: String,
   },
   TransportStatus: {
     prop: 'transportStatus',
