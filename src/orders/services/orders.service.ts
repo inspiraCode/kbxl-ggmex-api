@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomersService } from 'src/users/services/customers.service';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import {
   CreateOrderDto,
   FilterOrderDto,
@@ -55,6 +55,19 @@ export class OrdersService {
     }
 
     return order;
+  }
+
+  async findOrderByDate(startDate, endDate) {
+    return await this.ordersRepo.find({
+      relations: [
+        'shipmentsByOrder',
+        'shipmentsByOrder.equipment',
+        'shipmentsByOrder.equipmentPlataform1',
+      ],
+      where: {
+        createdAt: Between(startDate, endDate),
+      },
+    });
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {

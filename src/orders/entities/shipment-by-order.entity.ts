@@ -28,7 +28,6 @@ export class ShipmentByOrder {
     name: 'shipment_numner',
     type: 'varchar',
     length: 255,
-    unique: true,
   })
   shipmentNumber: string;
 

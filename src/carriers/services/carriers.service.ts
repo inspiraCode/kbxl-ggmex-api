@@ -37,6 +37,7 @@ export class CarriersService {
 
   findAll() {
     return this.carriersRepo.find({
+      relations: ['equipments'],
       order: {
         id: 'ASC',
       },

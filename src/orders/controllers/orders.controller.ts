@@ -37,6 +37,13 @@ export class OrdersController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.ordersService.findOne(id);
   }
+  @Get('availabeDate/:startDate/between/:endDate')
+  findOrderByDate(
+    @Param('startDate') startDate: Date,
+    @Param('endDate') endDate: Date,
+  ) {
+    return this.ordersService.findOrderByDate(startDate, endDate);
+  }
 
   @Put(':id')
   update(
