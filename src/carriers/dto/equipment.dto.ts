@@ -1,6 +1,7 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -39,6 +40,11 @@ export class CreateEquipmentDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly carrierId: number;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly isEnabled: boolean;
 
   @IsArray()
   @IsNotEmpty()
