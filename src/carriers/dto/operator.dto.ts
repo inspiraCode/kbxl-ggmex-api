@@ -1,6 +1,7 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsNumber,
@@ -34,6 +35,11 @@ export class CreateOperatorDto {
   @IsOptional()
   @ApiProperty()
   readonly docs: FileList[];
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly isEnabled: boolean;
 
   @IsNumber()
   @IsNotEmpty()
