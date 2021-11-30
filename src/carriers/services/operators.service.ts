@@ -31,6 +31,7 @@ export class OperatorsService {
   findAll(params: FilterOperatorDto) {
     const { limit, page } = params;
     return this.operatorsRepo.findAndCount({
+      relations: ['carrier'],
       order: {
         id: 'ASC',
       },
