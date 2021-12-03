@@ -27,6 +27,13 @@ export class Order {
   isEnabled: boolean;
 
   @CreateDateColumn({
+    name: 'order_date',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  orderDate: Date;
+
+  @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',

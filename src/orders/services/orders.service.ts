@@ -63,9 +63,10 @@ export class OrdersService {
         'shipmentsByOrder',
         'shipmentsByOrder.equipment',
         'shipmentsByOrder.equipmentPlataform1',
+        'shipmentsByOrder.route',
       ],
       where: {
-        createdAt: Between(startDate, endDate),
+        orderDate: Between(startDate, endDate),
       },
     });
   }
