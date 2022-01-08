@@ -37,6 +37,16 @@ export class RoutesService {
     return route;
   }
 
+  async findOneCustomer(customerName: string) {
+    const route = await this.routesRepo.find({
+      where: { deliveryCustomerName: customerName },
+    });
+    if (!route) {
+      throw new NotFoundException(`Customer Name #${customerName} not found`);
+    }
+    return route;
+  }
+
   async update(id: number, updateRouteDto: UpdateRouteDto) {
     const route = await this.routesRepo.findOne(id);
 

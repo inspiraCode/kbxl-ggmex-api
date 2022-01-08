@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import {
   CreateUnitAvailableDto,
   UpdateUnitAvailableDto,
@@ -76,6 +76,21 @@ export class UnitsAvailableService {
     return this.unitAvailableRepo.find({
       where: { available: id },
       relations: ['operator', 'equipment', 'equipmentPlataform1'],
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
+  async findAvailableUnit(startDate: Date, endDate: Date) {
+    return this.unitAvailableRepo.find({
+      where: { commitmentDate: Between(startDate, endDate) },
+      relations: [
+        'operator',
+        'equipment',
+        'equipmentPlataform1',
+        'equipment.carrier',
+      ],
       order: {
         id: 'DESC',
       },

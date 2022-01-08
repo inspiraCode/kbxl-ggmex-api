@@ -27,7 +27,7 @@ export class RolesGuard implements CanActivate {
     const isAuth = roles.some((role) => role === user.role);
     if (!isAuth) {
       throw new UnauthorizedException(
-        'Your role does not have access to this infomation.',
+        'Your role does not have access to this information.',
       );
     }
     return isAuth;

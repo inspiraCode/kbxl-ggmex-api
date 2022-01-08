@@ -38,6 +38,11 @@ export class RoutesController {
     return this.routesService.findOne(id);
   }
 
+  @Get('customer/:customerName')
+  findOneCustomer(@Param('customerName') customerName: string) {
+    return this.routesService.findOneCustomer(customerName);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

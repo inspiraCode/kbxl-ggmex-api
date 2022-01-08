@@ -44,6 +44,13 @@ export class UnitsAvailableController {
     return this.unitAvailableService.findByAvailableId(id);
   }
 
+  @Get(':startDate/between/:endDate')
+  findAvailableUnit(
+    @Param('startDate') startDate: Date,
+    @Param('endDate') endDate: Date,
+  ) {
+    return this.unitAvailableService.findAvailableUnit(startDate, endDate);
+  }
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
