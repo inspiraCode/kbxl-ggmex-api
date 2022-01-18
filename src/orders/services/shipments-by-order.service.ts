@@ -203,7 +203,7 @@ export class ShipmentsByOrderService {
     if (data.carrierId) {
       const carrier = await this.carriersService.findOne(data.carrierId);
       shipmentByOrder.carrier = carrier;
-    }
+    } else if (data.carrierId === null) shipmentByOrder.carrier = null;
 
     if (data.orderId) {
       const order = await this.ordersRepo.findOne(data.orderId);
@@ -218,13 +218,15 @@ export class ShipmentsByOrderService {
     if (data.equipmentId) {
       const equipment = await this.equipmentsService.findOne(data.equipmentId);
       shipmentByOrder.equipment = equipment;
-    }
+    } else if (data.equipmentId === null) shipmentByOrder.equipment = null;
 
     if (data.equipmentPlataform1Id) {
       const equipmentPlataform1 = await this.equipmentsService.findOne(
         data.equipmentPlataform1Id,
       );
       shipmentByOrder.equipmentPlataform1 = equipmentPlataform1;
+    } else if (data.equipmentPlataform1Id === null) {
+      shipmentByOrder.equipmentPlataform1 = null;
     }
 
     return this.shipmentByOrdersRepo.save(shipmentByOrder);
