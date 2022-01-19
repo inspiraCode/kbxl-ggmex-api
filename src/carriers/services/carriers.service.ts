@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateCarrierDto, UpdateCarrierDto } from '../dto/carrier.dto';
+import {
+  CreateCarrierDto,
+  FilterCarrierDto,
+  UpdateCarrierDto,
+} from '../dto/carrier.dto';
 import { Carrier } from '../entities/carrier.entity';
 import { Equipment } from '../entities/equipment.entity';
 import { Operator } from '../entities/operator.entity';
@@ -35,12 +39,15 @@ export class CarriersService {
     return this.carriersRepo.save(newCarrier);
   }
 
-  findAll() {
-    return this.carriersRepo.find({
+  findAll(params: FilterCarrierDto) {
+    const { limit, page } = params;
+    return this.carriersRepo.findAndCount({
       relations: ['equipments'],
       order: {
         id: 'ASC',
       },
+      take: limit || 0,
+      skip: (page - 1) * limit,
     });
   }
 

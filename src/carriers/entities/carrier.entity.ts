@@ -37,6 +37,14 @@ export class Carrier {
   docs: FileList[];
 
   @Column({
+    name: 'gps_provider',
+    type: 'varchar',
+    length: 300,
+    nullable: true,
+  })
+  gpsProvider: string;
+
+  @Column({
     name: 'hire_date',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',

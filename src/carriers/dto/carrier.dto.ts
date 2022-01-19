@@ -1,6 +1,7 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsDate,
   IsEmail,
   IsNotEmpty,
@@ -36,10 +37,20 @@ export class CreateCarrierDto {
   @ApiProperty()
   readonly email: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly gpsProvider: string;
+
   @IsDate()
   @IsNotEmpty()
   @ApiProperty()
   readonly hireDate: Date;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly isEnabled: boolean;
 
   @IsArray()
   @IsOptional()
@@ -66,5 +77,5 @@ export class FilterCarrierDto {
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  page: number;
 }
