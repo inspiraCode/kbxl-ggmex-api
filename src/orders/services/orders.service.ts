@@ -68,6 +68,7 @@ export class OrdersService {
       where: {
         orderDate: Between(startDate, endDate),
       },
+      order: { orderDate: 'DESC' },
     });
   }
 

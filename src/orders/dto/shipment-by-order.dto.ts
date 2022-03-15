@@ -140,12 +140,9 @@ export class UpdateShipmentByOrderDto extends PartialType(
   CreateShipmentByOrder,
 ) {}
 
-export class CreateShipmentsByOrder {
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly orderId: number;
-}
+export class CreateShipmentsByOrder extends PartialType(
+  CreateShipmentByOrder,
+) {}
 
 export class FilterShipmentByOrderDto {
   @IsPositive()

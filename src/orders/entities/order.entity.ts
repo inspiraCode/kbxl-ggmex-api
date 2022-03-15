@@ -20,7 +20,12 @@ export class Order {
   @Column({ name: 'order_number', type: 'varchar', length: 255 })
   OrderNumber: string;
 
-  @Column({ name: 'header_comments', type: 'varchar', length: 255 })
+  @Column({
+    name: 'header_comments',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
   hederComments: string;
 
   @Column({ name: 'is_enabled', type: 'boolean', default: true })

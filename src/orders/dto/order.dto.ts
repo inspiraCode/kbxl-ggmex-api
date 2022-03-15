@@ -1,6 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
-  IsArray,
   IsDate,
   IsNotEmpty,
   IsOptional,
@@ -21,7 +20,7 @@ export class CreateOrderDto {
   readonly orderDate: Date;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly hederComments: string;
 

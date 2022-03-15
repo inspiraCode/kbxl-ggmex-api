@@ -4,9 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  ParseArrayPipe,
   ParseIntPipe,
-  Patch,
   Post,
   Put,
   Query,
@@ -14,7 +12,6 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import {
   CreateShipmentByOrder,
-  CreateShipmentsByOrder,
   FilterShipmentByOrderDto,
   UpdateShipmentByOrderDto,
 } from '../dto/shipment-by-order.dto';
@@ -42,7 +39,7 @@ export class ShipmentsByOrderController {
   @Post('objs')
   createShipments(
     @Body()
-    createShipmentsByOrder: CreateShipmentsByOrder[],
+    createShipmentsByOrder: CreateShipmentByOrder[],
   ) {
     return this.shipmentByOrdersService.createShipments(createShipmentsByOrder);
   }
@@ -68,6 +65,13 @@ export class ShipmentsByOrderController {
     @Body() updateShipmentByOrderDto: UpdateShipmentByOrderDto,
   ) {
     return this.shipmentByOrdersService.update(id, updateShipmentByOrderDto);
+  }
+
+  @Delete('/delete-shipments-by-order')
+  removeShipmentsByOrder(@Body() shipmentsByOrder: number[]) {
+    return this.shipmentByOrdersService.removeShipmentsByOrder(
+      shipmentsByOrder,
+    );
   }
 
   @Delete(':id')

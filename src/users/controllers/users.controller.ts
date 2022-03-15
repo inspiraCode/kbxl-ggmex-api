@@ -35,8 +35,8 @@ export class UserController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-  @Public()
-  // @Roles(Role.ADMIN)
+  // @Public()
+  @Roles(Role.ADMIN)
   @Get()
   findAll(@Query() params: FilterUsersDto) {
     return this.userService.findAll(params);

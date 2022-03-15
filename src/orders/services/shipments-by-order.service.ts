@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 
 import {
   CreateShipmentByOrder,
@@ -20,87 +20,6 @@ import { Route } from '../entities/route.entity';
 import { CarriersService } from 'src/carriers/services/carriers.service';
 import { EquipmentsService } from 'src/carriers/services/equipments.service';
 
-const schema = {
-  AppointmentDate: {
-    prop: 'appointmentDate',
-    type: Date,
-  },
-  SR: {
-    prop: 'shipmentNumber',
-    type: String,
-  },
-  Customer: {
-    prop: 'customerName',
-    type: String,
-  },
-  City: {
-    prop: 'city',
-    type: String,
-  },
-  State: {
-    prop: 'state',
-    type: String,
-  },
-  DeliveryTerms: {
-    prop: 'deliveryTerms',
-    type: String,
-  },
-  Carrier: {
-    prop: 'ligisticsAgent',
-    type: String,
-  },
-  SRFreight: {
-    prop: 'srFreight',
-    type: Number,
-  },
-  OrderFreight: {
-    prop: 'orderFreight',
-    type: Number,
-  },
-  TruckType: {
-    prop: 'truckType',
-    type: String,
-  },
-  DeliveryDate: {
-    prop: 'deliveryDate',
-    type: Date,
-  },
-  TransportStatus: {
-    prop: 'transportStatus',
-    type: String,
-  },
-  OrderStatus: {
-    prop: 'orderStatus',
-    type: String,
-  },
-  FinancialStatus: {
-    prop: 'financialStatus',
-    type: String,
-  },
-  PONumber: {
-    prop: 'poNumber',
-    type: String,
-  },
-  GrossWeight: {
-    prop: 'weight',
-    type: Number,
-  },
-  TSM: {
-    prop: 'TSM',
-    type: String,
-  },
-  SRHeaderComment: {
-    prop: 'srHeaderComment',
-    type: String,
-  },
-  OrderHeaderComment: {
-    prop: 'orderHeaderComment',
-    type: String,
-  },
-};
-
-const preOrder = `precierre`;
-
 @Injectable()
 export class ShipmentsByOrderService {
   constructor(
@@ -113,6 +32,8 @@ export class ShipmentsByOrderService {
 
     @InjectRepository(Order) private ordersRepo: Repository<Order>,
     @InjectRepository(Route) private routesRepo: Repository<Route>,
+
+    private connection: Connection,
   ) {}
 
   async create(data: CreateShipmentByOrder) {
@@ -137,21 +58,49 @@ export class ShipmentsByOrderService {
   }
 
   async createShipments(shipments: CreateShipmentsByOrder[]) {
+    const queryRunner = this.connection.createQueryRunner();
+    let orderId = 0;
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
     try {
       for await (const shipment of shipments) {
-        const res = await this.create(shipment as CreateShipmentByOrder);
-        // console.log(res.id);
+        const newShipmentByOrder = await this.shipmentByOrdersRepo.create(
+          shipment,
+        );
+        if (shipment.orderId) {
+          orderId = shipment.orderId;
+          const order = await this.ordersRepo.findOne(shipment.orderId);
+          newShipmentByOrder.order = order;
+        }
+        queryRunner.manager.save(newShipmentByOrder);
       }
-      // await shipments.map(async (shipment: CreateShipmentByOrder) => {
-      //   await this.create(shipment).catch((error) =>
-      //     console.log(`Algo salio mal: ${error}`),
-      //   );
-      // });
-      // console.log('Finalizo...');
+
+      await queryRunner.commitTransaction();
+      return this.findOneByOrder(orderId);
     } catch (error) {
-      return 'algo salio mal...';
+      console.log('rollbackTransaction');
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
     }
   }
+  // async createShipments(shipments: CreateShipmentsByOrder[]) {
+  //   try {
+  //     for await (const shipment of shipments) {
+  //       const response = await this.create(shipment as CreateShipmentByOrder);
+  //     }
+  //     // await shipments.map(async (shipment: CreateShipmentByOrder) => {
+  //     //   await this.create(shipment).catch((error) =>
+  //     //     console.log(`Algo salio mal: ${error}`),
+  //     //   );
+  //     // });
+  //     // console.log('Finalizo...');
+  //   } catch (error) {
+  //     return 'algo salio mal...';
+  //   }
+  // }
 
   findAll(params: FilterShipmentByOrderDto) {
     const { limit, page } = params;
@@ -230,6 +179,10 @@ export class ShipmentsByOrderService {
     }
 
     return this.shipmentByOrdersRepo.save(shipmentByOrder);
+  }
+
+  removeShipmentsByOrder(shipmentsByOrder: number[]) {
+    return this.shipmentByOrdersRepo.delete(shipmentsByOrder);
   }
 
   remove(id: number) {
