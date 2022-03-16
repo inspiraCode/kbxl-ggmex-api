@@ -39,5 +39,5 @@ export class FilterOrderDto {
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  page: number;
 }

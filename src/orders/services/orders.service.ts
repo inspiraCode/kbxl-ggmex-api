@@ -35,14 +35,14 @@ export class OrdersService {
   }
 
   findAll(params: FilterOrderDto) {
-    const { limit, offset } = params;
-    return this.ordersRepo.find({
+    const { limit, page } = params;
+    return this.ordersRepo.findAndCount({
       relations: ['customer'],
       order: {
         id: 'DESC',
       },
       take: limit || 0,
-      skip: offset || 0,
+      skip: (page - 1) * limit,
     });
   }
 
