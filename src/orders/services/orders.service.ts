@@ -39,7 +39,7 @@ export class OrdersService {
     return this.ordersRepo.findAndCount({
       relations: ['customer'],
       order: {
-        id: 'DESC',
+        orderDate: 'DESC',
       },
       take: limit || 0,
       skip: (page - 1) * limit,
