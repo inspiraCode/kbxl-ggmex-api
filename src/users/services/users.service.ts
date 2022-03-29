@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -44,13 +40,13 @@ export class UserService {
   }
 
   findAll(params: FilterUsersDto) {
-    const { limit, offset } = params;
-    return this.usersRepo.find({
+    const { limit, page } = params;
+    return this.usersRepo.findAndCount({
       order: {
         id: 'ASC',
       },
       take: limit || 0,
-      skip: offset || 0,
+      skip: (page - 1) * limit,
     });
   }
 

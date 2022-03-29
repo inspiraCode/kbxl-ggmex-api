@@ -39,14 +39,17 @@ export class ShipmentsByOrderService {
   async create(data: CreateShipmentByOrder) {
     const newShipmentByOrder = await this.shipmentByOrdersRepo.create(data);
 
+    // orderId is a must
+    if (!data.orderId) {
+      throw new NotFoundException('Order Not Found.');
+    } else {
+      const order = await this.ordersRepo.findOne(data.orderId);
+      newShipmentByOrder.order = order;
+    }
+
     if (data.carrierId) {
       const carrier = await this.carriersService.findOne(data.carrierId);
       newShipmentByOrder.carrier = carrier;
-    }
-
-    if (data.orderId) {
-      const order = await this.ordersRepo.findOne(data.orderId);
-      newShipmentByOrder.order = order;
     }
 
     if (data.routeId) {
