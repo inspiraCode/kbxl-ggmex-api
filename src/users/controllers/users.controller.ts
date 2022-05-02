@@ -36,19 +36,19 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
   // @Public()
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.PLANNER)
   @Get()
   findAll(@Query() params: FilterUsersDto) {
     return this.userService.findAll(params);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.PLANNER)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.PLANNER)
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -57,7 +57,7 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.PLANNER)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);

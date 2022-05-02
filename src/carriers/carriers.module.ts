@@ -50,6 +50,6 @@ import { UnitAvailable } from './entities/unit-available.entity';
     AvailablesService,
     UnitsAvailableService,
   ],
-  exports: [CarriersService, EquipmentsService],
+  exports: [CarriersService, EquipmentsService, OperatorsService],
 })
 export class CarriersModule {}

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import {
   CreateRouteDto,
   FilterRouteDto,
@@ -19,13 +20,13 @@ export class RoutesService {
   }
 
   findAll(params: FilterRouteDto) {
-    const { limit, offset } = params;
-    return this.routesRepo.find({
+    const { limit, page } = params;
+    return this.routesRepo.findAndCount({
       order: {
         id: 'ASC',
       },
       take: limit || 0,
-      skip: offset || 0,
+      skip: (page - 1) * limit,
     });
   }
 
@@ -35,6 +36,20 @@ export class RoutesService {
       throw new NotFoundException(`Order #${id} not found`);
     }
     return route;
+  }
+
+  async findOneShDNumber(routeNumber: string) {
+    try {
+      const route = await this.routesRepo.findOne({
+        where: { routeNumber },
+      });
+      return route;
+    } catch (error) {
+      // if (error) {
+      //   throw new NotFoundException(`Order #${routeNumber} not found`);
+      // }
+      return null;
+    }
   }
 
   async findOneCustomer(customerName: string) {

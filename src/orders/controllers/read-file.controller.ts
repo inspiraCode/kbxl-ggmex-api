@@ -5,18 +5,19 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import * as yup from 'yup';
-import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { unlinkSync } from 'fs';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import readXlsxFile = require('read-excel-file/node');
-import Moment from 'moment';
-import moment = require('moment');
 
 const schema = {
   AppointmentDate: {
     prop: 'appointmentDate',
+    type: String,
+  },
+  ShDNumber: {
+    prop: 'shDNumber',
     type: String,
   },
   SR: {
@@ -93,7 +94,6 @@ const schema = {
   },
 };
 
-const date = new Date();
 const preOrder = `precierre`;
 // const preOrder = `${date.getMonth()}-${date.getDate()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getMinutes()}`;
 

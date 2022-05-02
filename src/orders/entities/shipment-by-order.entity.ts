@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
+import { Operator } from 'src/carriers/entities/operator.entity';
 import { Route } from './route.entity';
 import { Carrier } from '../../carriers/entities/carrier.entity';
 import { Equipment } from 'src/carriers/entities/equipment.entity';
@@ -30,6 +31,14 @@ export class ShipmentByOrder {
     length: 255,
   })
   shipmentNumber: string;
+
+  @Column({
+    name: 'sh_d_number',
+    type: 'varchar',
+    length: 255,
+    default: null,
+  })
+  shDNumber: string;
 
   @Column({ name: 'customer_name', type: 'varchar', length: 255 })
   customerName: string;
@@ -141,6 +150,10 @@ export class ShipmentByOrder {
   @ManyToOne(() => Carrier, (carrier) => carrier.shipments)
   @JoinColumn({ name: 'carrier_id' })
   carrier: Carrier;
+
+  @ManyToOne(() => Operator)
+  @JoinColumn({ name: 'operator_id' })
+  operator: Operator;
 
   @ManyToOne(() => Order, (order) => order.shipmentsByOrder)
   @JoinColumn({ name: 'order_id' })

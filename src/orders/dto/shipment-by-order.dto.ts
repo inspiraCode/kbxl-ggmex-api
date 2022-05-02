@@ -23,6 +23,11 @@ export class CreateShipmentByOrder {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
+  readonly shDNumber: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
   readonly customerName: string;
 
   @IsNotEmpty()
@@ -114,6 +119,11 @@ export class CreateShipmentByOrder {
   @IsOptional()
   @ApiProperty()
   readonly carrierId: number;
+
+  @IsPositive()
+  @IsOptional()
+  @ApiProperty()
+  readonly operatorId: number;
 
   @IsPositive()
   @IsNotEmpty()

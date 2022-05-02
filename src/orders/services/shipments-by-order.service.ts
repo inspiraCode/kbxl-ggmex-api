@@ -15,23 +15,33 @@ import {
 } from '../dto/shipment-by-order.dto';
 import { ShipmentByOrder } from '../entities/shipment-by-order.entity';
 import { Order } from '../entities/order.entity';
-import { Route } from '../entities/route.entity';
+// import { Route } from '../entities/route.entity';
 
 import { CarriersService } from 'src/carriers/services/carriers.service';
 import { EquipmentsService } from 'src/carriers/services/equipments.service';
+import { OperatorsService } from 'src/carriers/services/operators.service';
+import { RoutesService } from './routes.service';
 
 @Injectable()
 export class ShipmentsByOrderService {
   constructor(
     @InjectRepository(ShipmentByOrder)
     private shipmentByOrdersRepo: Repository<ShipmentByOrder>,
+
     @Inject(forwardRef(() => CarriersService))
     private carriersService: CarriersService,
+
+    @Inject(forwardRef(() => OperatorsService))
+    private operatorsService: OperatorsService,
+
     @Inject(forwardRef(() => EquipmentsService))
     private equipmentsService: EquipmentsService,
 
+    // @InjectRepository(RoutesService) private routesRepo: RoutesService,
+    @Inject(RoutesService) private routesRepo: RoutesService,
+
     @InjectRepository(Order) private ordersRepo: Repository<Order>,
-    @InjectRepository(Route) private routesRepo: Repository<Route>,
+    // @InjectRepository(Route) private routesRepo: Repository<Route>,
 
     private connection: Connection,
   ) {}
@@ -51,10 +61,22 @@ export class ShipmentsByOrderService {
       const carrier = await this.carriersService.findOne(data.carrierId);
       newShipmentByOrder.carrier = carrier;
     }
+    if (data.operatorId) {
+      const operator = await this.operatorsService.findOne(data.operatorId);
+      newShipmentByOrder.operator = operator;
+    }
 
     if (data.routeId) {
       const route = await this.routesRepo.findOne(data.routeId);
       newShipmentByOrder.route = route;
+    }
+
+    if (data.shDNumber) {
+      const route = await this.routesRepo.findOneShDNumber(data.shDNumber);
+      if (!route || route === undefined) newShipmentByOrder.route = null;
+
+      newShipmentByOrder.route = route;
+      // console.log(route);
     }
 
     return await this.shipmentByOrdersRepo.save(newShipmentByOrder);
@@ -76,6 +98,14 @@ export class ShipmentsByOrderService {
           orderId = shipment.orderId;
           const order = await this.ordersRepo.findOne(shipment.orderId);
           newShipmentByOrder.order = order;
+        }
+        if (shipment.shDNumber) {
+          const route = await this.routesRepo.findOneShDNumber(
+            shipment.shDNumber,
+          );
+          if (!route || route === undefined) newShipmentByOrder.route = null;
+
+          newShipmentByOrder.route = route;
         }
         queryRunner.manager.save(newShipmentByOrder);
       }
@@ -108,7 +138,7 @@ export class ShipmentsByOrderService {
   findAll(params: FilterShipmentByOrderDto) {
     const { limit, page } = params;
     return this.shipmentByOrdersRepo.findAndCount({
-      relations: ['carrier', 'route', 'order'],
+      relations: ['carrier', 'operator', 'route', 'order'],
       order: {
         id: 'ASC',
       },
@@ -123,6 +153,7 @@ export class ShipmentsByOrderService {
         'carrier',
         'route',
         'order',
+        'operator',
         'equipment',
         'equipmentPlataform1',
       ],
@@ -139,6 +170,7 @@ export class ShipmentsByOrderService {
         'carrier',
         'route',
         'order',
+        'operator',
         'equipment',
         'equipmentPlataform1',
       ],
@@ -161,6 +193,11 @@ export class ShipmentsByOrderService {
       const order = await this.ordersRepo.findOne(data.orderId);
       shipmentByOrder.order = order;
     }
+
+    if (data.operatorId) {
+      const operator = await this.operatorsService.findOne(data.operatorId);
+      shipmentByOrder.operator = operator;
+    } else if (data.operatorId === null) shipmentByOrder.operator = null;
 
     if (data.routeId) {
       const route = await this.routesRepo.findOne(data.routeId);
