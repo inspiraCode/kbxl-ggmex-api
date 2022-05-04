@@ -178,6 +178,20 @@ export class ShipmentsByOrderService {
       order: { id: 'ASC' },
     });
   }
+  async findOneByOrderByCarrier(id: number, carrierId: number) {
+    return await this.shipmentByOrdersRepo.find({
+      relations: [
+        'carrier',
+        'route',
+        'order',
+        'operator',
+        'equipment',
+        'equipmentPlataform1',
+      ],
+      where: { order: id, carrier: carrierId },
+      order: { id: 'ASC' },
+    });
+  }
 
   async update(id: number, data: UpdateShipmentByOrderDto) {
     const shipmentByOrder = await this.shipmentByOrdersRepo.findOne(id);

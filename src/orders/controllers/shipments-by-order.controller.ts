@@ -10,6 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
 import {
   CreateShipmentByOrder,
   FilterShipmentByOrderDto,
@@ -57,6 +58,14 @@ export class ShipmentsByOrderController {
   @Get('order/:id')
   findOneByOrder(@Param('id', ParseIntPipe) id: number) {
     return this.shipmentByOrdersService.findOneByOrder(id);
+  }
+
+  @Get('order/:id/carrier/:carrierId')
+  findOneByOrderByCarrier(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('carrierId', ParseIntPipe) carrierId: number,
+  ) {
+    return this.shipmentByOrdersService.findOneByOrderByCarrier(id, carrierId);
   }
 
   @Put(':id')
