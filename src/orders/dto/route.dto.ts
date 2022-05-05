@@ -55,6 +55,21 @@ export class CreateRouteDto {
   @ApiProperty()
   readonly zipCode: string;
 
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly streetAndNumber: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly asentamiento: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly municipio: string;
+
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty()

@@ -40,6 +40,20 @@ export class Route {
   @Column({ name: 'zip_code', type: 'varchar', length: 255, nullable: true })
   zipCode: string;
 
+  @Column({
+    name: 'street_and_number',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  streetAndNumber: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  asentamiento: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  municipio: string;
+
   @Column({ type: 'varchar', length: 255 })
   country: string;
 

@@ -21,6 +21,15 @@ export class Order {
   OrderNumber: string;
 
   @Column({
+    name: 'order_status',
+    type: 'varchar',
+    length: 120,
+    nullable: true,
+    default: 'PRE-CLOSE',
+  })
+  orderStatus: string;
+
+  @Column({
     name: 'header_comments',
     type: 'varchar',
     length: 255,

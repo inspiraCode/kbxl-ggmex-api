@@ -14,6 +14,11 @@ export class CreateOrderDto {
   @ApiProperty()
   readonly OrderNumber: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  readonly orderStatus: string;
+
   @IsNotEmpty()
   @IsDate()
   @ApiProperty()
