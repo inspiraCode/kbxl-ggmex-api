@@ -79,6 +79,20 @@ export class ShipmentsByOrderService {
       // console.log(route);
     }
 
+    if (data.equipmentId) {
+      const equipment = await this.equipmentsService.findOne(data.equipmentId);
+      newShipmentByOrder.equipment = equipment;
+    } else if (data.equipmentId === null) newShipmentByOrder.equipment = null;
+
+    if (data.equipmentPlataform1Id) {
+      const equipmentPlataform1 = await this.equipmentsService.findOne(
+        data.equipmentPlataform1Id,
+      );
+      newShipmentByOrder.equipmentPlataform1 = equipmentPlataform1;
+    } else if (data.equipmentPlataform1Id === null) {
+      newShipmentByOrder.equipmentPlataform1 = null;
+    }
+
     return await this.shipmentByOrdersRepo.save(newShipmentByOrder);
   }
 
@@ -233,6 +247,40 @@ export class ShipmentsByOrderService {
     }
 
     return this.shipmentByOrdersRepo.save(shipmentByOrder);
+  }
+
+  async updateShipmentsMaterial(
+    orderId: number,
+    updateShipmentsMaterial: UpdateShipmentByOrderDto[],
+  ) {
+    const queryRunner = this.connection.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      for await (const shipmentMaterial of updateShipmentsMaterial) {
+        const updateShipmentMaterial = await this.shipmentByOrdersRepo.findOne({
+          where: {
+            shipmentNumber: shipmentMaterial.shipmentNumber,
+            order: orderId,
+          },
+        });
+        if (!updateShipmentMaterial || updateShipmentMaterial === undefined) {
+          return null;
+        }
+        this.shipmentByOrdersRepo.merge(
+          updateShipmentMaterial,
+          shipmentMaterial,
+        );
+        this.shipmentByOrdersRepo.save(updateShipmentMaterial);
+      }
+    } catch (error) {
+      console.log('rollbackTransaction');
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   removeShipmentsByOrder(shipmentsByOrder: number[]) {

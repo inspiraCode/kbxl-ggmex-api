@@ -76,6 +76,17 @@ export class ShipmentsByOrderController {
     return this.shipmentByOrdersService.update(id, updateShipmentByOrderDto);
   }
 
+  @Put('upload-material/:orderId')
+  updateShipmentsMaterial(
+    @Param('orderId', ParseIntPipe) orderId: number,
+    @Body() updateShipmentsMaterial: UpdateShipmentByOrderDto[],
+  ) {
+    return this.shipmentByOrdersService.updateShipmentsMaterial(
+      orderId,
+      updateShipmentsMaterial,
+    );
+  }
+
   @Delete('/delete-shipments-by-order')
   removeShipmentsByOrder(@Body() shipmentsByOrder: number[]) {
     return this.shipmentByOrdersService.removeShipmentsByOrder(

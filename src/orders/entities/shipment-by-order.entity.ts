@@ -108,8 +108,52 @@ export class ShipmentByOrder {
   @Column({ type: 'float8' })
   weight: number;
 
+  @Column({
+    name: 'clave_SAT',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  claveSAT: string;
+
+  @Column({
+    name: 'descripcion_SAT',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  descripcionSAT: string;
+
+  @Column({ type: 'int', nullable: true })
+  paquetes: number;
+
+  @Column({ type: 'int', nullable: true })
+  laminas: number;
+
+  @Column({ name: 'peso_neto', type: 'float8', nullable: true })
+  pesoNeto: number;
+
+  @Column({ name: 'peso_bruto', type: 'float8', nullable: true })
+  pesoBruto: number;
+
   @Column({ name: 'tsm', type: 'varchar', length: 255, nullable: true })
   TSM: string;
+
+  @Column({
+    name: 'kbx_comments',
+    type: 'varchar',
+    length: 510,
+    nullable: true,
+  })
+  kbxComments: string;
+
+  @Column({
+    name: 'sat_comments',
+    type: 'varchar',
+    length: 510,
+    nullable: true,
+  })
+  satComments: string;
 
   @Column({
     name: 'sr_header_comments',
@@ -127,11 +171,27 @@ export class ShipmentByOrder {
   })
   orderHeaderComment: string;
 
-  @Column({ name: 'cancelation_reazon', type: 'varchar', nullable: true })
+  @Column({
+    name: 'cancelation_reason',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
   cancelationReason: string;
+
+  @Column({
+    name: 'cancelation_variable',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  cancelationVariable: string;
 
   @Column({ name: 'is_enabled', type: 'boolean', default: true })
   isEnabled: boolean;
+
+  @Column({ name: 'is_cancel', type: 'boolean', default: false })
+  isCancel: boolean;
 
   @CreateDateColumn({
     name: 'created_at',

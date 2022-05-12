@@ -1,5 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDate,
   IsNotEmpty,
   IsNumber,
@@ -93,6 +94,36 @@ export class CreateShipmentByOrder {
   @IsOptional()
   @IsString()
   @ApiProperty()
+  readonly claveSAT: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly descripcionSAT: string;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  readonly paquetes: number;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  readonly laminas: number;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  readonly pesoNeto: number;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  readonly pesoBruto: number;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
   readonly TSM: string;
 
   @IsOptional()
@@ -103,17 +134,37 @@ export class CreateShipmentByOrder {
   @IsOptional()
   @IsString()
   @ApiProperty()
-  readonly orderHeaderComment: string;
-
-  // @IsNotEmpty()
-  // @IsString()
-  // @ApiProperty()
-  // readonly status: string;
+  readonly kbxComments: string;
 
   @IsOptional()
   @IsString()
   @ApiProperty()
-  readonly cancelationReazon: string;
+  readonly satComments: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly orderHeaderComment: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly cancelationReason: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  readonly cancelationVariable: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty()
+  readonly isCancel: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty()
+  readonly isEnabled: boolean;
 
   @IsPositive()
   @IsOptional()
