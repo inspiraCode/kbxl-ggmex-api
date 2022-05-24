@@ -21,6 +21,7 @@ import { CarriersService } from 'src/carriers/services/carriers.service';
 import { EquipmentsService } from 'src/carriers/services/equipments.service';
 import { OperatorsService } from 'src/carriers/services/operators.service';
 import { RoutesService } from './routes.service';
+import { MaterialByShipmentService } from './material-by-shipment.service';
 
 @Injectable()
 export class ShipmentsByOrderService {
@@ -37,11 +38,13 @@ export class ShipmentsByOrderService {
     @Inject(forwardRef(() => EquipmentsService))
     private equipmentsService: EquipmentsService,
 
-    // @InjectRepository(RoutesService) private routesRepo: RoutesService,
     @Inject(RoutesService) private routesRepo: RoutesService,
+    // @InjectRepository(Route) private routesRepo: Repository<Route>,
+
+    @Inject(MaterialByShipmentService)
+    private materialByShipmentService: MaterialByShipmentService,
 
     @InjectRepository(Order) private ordersRepo: Repository<Order>,
-    // @InjectRepository(Route) private routesRepo: Repository<Route>,
 
     private connection: Connection,
   ) {}
@@ -187,6 +190,7 @@ export class ShipmentsByOrderService {
         'operator',
         'equipment',
         'equipmentPlataform1',
+        'materialByShipment',
       ],
       where: { order: id },
       order: { id: 'ASC' },
@@ -201,6 +205,7 @@ export class ShipmentsByOrderService {
         'operator',
         'equipment',
         'equipmentPlataform1',
+        'materialByShipment',
       ],
       where: { order: id, carrier: carrierId },
       order: { id: 'ASC' },
@@ -253,11 +258,6 @@ export class ShipmentsByOrderService {
     orderId: number,
     updateShipmentsMaterial: UpdateShipmentByOrderDto[],
   ) {
-    const queryRunner = this.connection.createQueryRunner();
-
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
     try {
       for await (const shipmentMaterial of updateShipmentsMaterial) {
         const updateShipmentMaterial = await this.shipmentByOrdersRepo.findOne({
@@ -269,17 +269,20 @@ export class ShipmentsByOrderService {
         if (!updateShipmentMaterial || updateShipmentMaterial === undefined) {
           return null;
         }
-        this.shipmentByOrdersRepo.merge(
-          updateShipmentMaterial,
-          shipmentMaterial,
-        );
-        this.shipmentByOrdersRepo.save(updateShipmentMaterial);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { shDNumber, shipmentNumber, ...materialShipment } =
+          shipmentMaterial;
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...restAll } = updateShipmentMaterial;
+
+        this.materialByShipmentService.create({
+          ...(materialShipment as any),
+          shipmentByOrderId: id,
+        });
       }
     } catch (error) {
-      console.log('rollbackTransaction');
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
+      console.log(error);
     }
   }
 

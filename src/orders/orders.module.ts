@@ -13,13 +13,22 @@ import { RoutesController } from './controllers/routes.controller';
 import { RoutesService } from './services/routes.service';
 import { Route } from './entities/route.entity';
 
+import { MaterialByShipmentController } from './controllers/material-by-shipment.controller';
+import { MaterialByShipmentService } from './services/material-by-shipment.service';
+import { MaterialByShipment } from './entities/material-by-shipment.entity';
+
 import { UserModule } from 'src/users/users.module';
 import { CarriersModule } from 'src/carriers/carriers.module';
 import { ReadFileController } from './controllers/read-file.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, ShipmentByOrder, Route]),
+    TypeOrmModule.forFeature([
+      Order,
+      ShipmentByOrder,
+      Route,
+      MaterialByShipment,
+    ]),
     UserModule,
     CarriersModule,
   ],
@@ -28,7 +37,13 @@ import { ReadFileController } from './controllers/read-file.controller';
     ShipmentsByOrderController,
     RoutesController,
     ReadFileController,
+    MaterialByShipmentController,
   ],
-  providers: [OrdersService, ShipmentsByOrderService, RoutesService],
+  providers: [
+    OrdersService,
+    ShipmentsByOrderService,
+    RoutesService,
+    MaterialByShipmentService,
+  ],
 })
 export class OrdersModule {}

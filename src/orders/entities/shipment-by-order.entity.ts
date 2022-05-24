@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,6 +13,7 @@ import { Operator } from 'src/carriers/entities/operator.entity';
 import { Route } from './route.entity';
 import { Carrier } from '../../carriers/entities/carrier.entity';
 import { Equipment } from 'src/carriers/entities/equipment.entity';
+import { MaterialByShipment } from './material-by-shipment.entity';
 
 @Entity({ name: 'shipments_by_orders' })
 export class ShipmentByOrder {
@@ -230,4 +232,10 @@ export class ShipmentByOrder {
   @ManyToOne(() => Equipment, (equipment) => equipment.shipmentByOrder)
   @JoinColumn({ name: 'equipment_plataform_1_id' })
   equipmentPlataform1: Equipment;
+
+  @OneToMany(
+    () => MaterialByShipment,
+    (materialByShipment) => materialByShipment.shipmentByOrder,
+  )
+  materialByShipment: MaterialByShipment[];
 }

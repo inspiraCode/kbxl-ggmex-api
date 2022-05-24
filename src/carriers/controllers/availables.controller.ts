@@ -7,15 +7,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
-import {
-  CreateAvailableDto,
-  CurrentDateParams,
-  UpdateAvailableDto,
-} from '../dto/available.dto';
+import { CreateAvailableDto, UpdateAvailableDto } from '../dto/available.dto';
 import { AvailablesService } from '../services/availables.service';
 
 @ApiTags('availables')
