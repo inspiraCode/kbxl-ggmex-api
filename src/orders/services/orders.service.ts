@@ -64,6 +64,7 @@ export class OrdersService {
         'shipmentsByOrder.equipment',
         'shipmentsByOrder.equipmentPlataform1',
         'shipmentsByOrder.route',
+        'shipmentsByOrder.carrier',
       ],
       where: {
         orderDate: Between(startDate, endDate),
