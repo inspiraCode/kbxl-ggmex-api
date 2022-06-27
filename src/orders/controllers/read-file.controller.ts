@@ -16,6 +16,21 @@ const satData = `satMaterialData`;
 const preOrder = `precierre`;
 // const preOrder = `${date.getMonth()}-${date.getDate()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getMinutes()}`;
 
+function SerialDateToJSDate(serialDate) {
+  const fractional_day = serialDate - Math.floor(serialDate) + 0.0000001;
+  let total_seconds = Math.floor(86400 * fractional_day);
+  const seconds = total_seconds % 60;
+  total_seconds -= seconds;
+
+  // const days = Math.floor(serialDate);
+  const hours = Math.floor(total_seconds / (60 * 60));
+  const minutes = Math.floor(total_seconds / 60) % 60;
+
+  // const hours = Math.floor((serialDate % 1) * 24);
+  // const minutes = Math.floor(((serialDate % 1) * 24 - hours) * 60);
+  return new Date(Date.UTC(0, 0, serialDate, hours - 19, minutes));
+}
+
 @Controller('file')
 export class ReadFileController {
   // @Get('read')
@@ -70,7 +85,13 @@ export class ReadFileController {
       const schema = {
         AppointmentDate: {
           prop: 'appointmentDate',
-          type: String,
+          type: (value) => {
+            const excellApointmentDate = SerialDateToJSDate(value);
+            if (!excellApointmentDate) {
+              return value;
+            }
+            return excellApointmentDate;
+          },
         },
         ShDNumber: {
           prop: 'shDNumber',
@@ -114,7 +135,13 @@ export class ReadFileController {
         },
         DeliveryDate: {
           prop: 'deliveryDate',
-          type: String,
+          type: (value) => {
+            const excellDeliveryDate = SerialDateToJSDate(value);
+            if (!excellDeliveryDate) {
+              return value;
+            }
+            return excellDeliveryDate;
+          },
         },
         TransportStatus: {
           prop: 'transportStatus',
