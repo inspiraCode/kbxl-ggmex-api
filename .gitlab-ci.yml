@@ -24,11 +24,11 @@ kbx:
     TARGET_DOMAIN_SSH: siafracc.do.inspiracode.com
     TARGET_DOMAIN: kbx.do.siafracc.com
     CONTAINER_NAME: kbx-planning
-    DB_HOST: ${DB_HOST}
-    DB_NAME: ${DB_NAME}
-    DB_USER: ${DB_USER}
-    DB_PASSWORD: ${DB_PASSWORD}
-    DB_PORT: ${DB_PORT}
+    DB_HOST: ${DB_HOST_KBX}
+    DB_NAME: ${DB_NAME_KBX}
+    DB_USER: ${DB_USER_KBX}
+    DB_PASSWORD: ${DB_PASSWORD_KBX}
+    DB_PORT: ${DB_PORT_KBX}
     API_KEY: ${API_KEY_KBX}
     JWT_SECRET: ${JWT_SECRET_KBX}
     PORT: ${APP_PORT}
