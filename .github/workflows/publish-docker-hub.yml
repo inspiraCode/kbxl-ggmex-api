@@ -41,3 +41,49 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy_to_kbx:
+   name: kbx-planning
+   needs: [push_to_registry]
+   runs-on: ubuntu-latest
+   steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.7
+      env:
+        CONTAINER_NAME: kbx-planning
+        DOCKER_IMAGE: jjfigueroa/jjfigueroa-repository:main
+        DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        APP_TARGET_DOMAIN: ${{ secrets.APP_TARGET_DOMAIN }}
+        APP_PORT: 3001
+        DB_HOST: db
+        DB_NAME: kbxl-ggmex-db
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_PORT: 5432
+        API_KEY: ${{ secrets.API_KEY }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      with:
+        host: ${{ secrets.TARGET_DOMAIN_SSH }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        envs: DOCKER_USER,DOCKER_PASSWORD,CONTAINER_NAME,APP_TARGET_DOMAIN,APP_PORT,DB_HOST,DB_NAME,DB_USER,DB_PASSWORD,DB_PORT,API_KEY,JWT_SECRET,DOCKER_IMAGE
+        steps: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD && \
+            docker pull $DOCKER_IMAGE && \
+            (docker stop $CONTAINER_NAME || true) && \
+            (docker rm $CONTAINER_NAME || true) && \
+            docker run -d --name $CONTAINER_NAME --network my-net \
+              -e VIRTUAL_HOST=$APP_TARGET_DOMAIN -e LETSENCRYPT_HOST=$APP_TARGET_DOMAIN \
+              -e VIRTUAL_PORT=$APP_PORT \
+              -e DB_HOST=$DB_HOST \
+              -e DB_NAME=$DB_NAME \
+              -e DB_USER=$DB_USER \
+              -e DB_PASSWORD=$DB_PASSWORD \
+              -e DB_PORT=$DB_PORT \
+              -e API_KEY=$API_KEY \
+              -e JWT_SECRET=$JWT_SECRET \
+              -e PORT=$APP_PORT \
+              -p $APP_PORT:$APP_PORT \
+              $DOCKER_IMAGE"
