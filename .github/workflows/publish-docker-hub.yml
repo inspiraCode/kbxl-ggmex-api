@@ -69,7 +69,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         envs: DOCKER_USER,DOCKER_PASSWORD,CONTAINER_NAME,APP_TARGET_DOMAIN,APP_PORT,DB_HOST,DB_NAME,DB_USER,DB_PASSWORD,DB_PORT,API_KEY,JWT_SECRET,DOCKER_IMAGE
-        steps: |
+        script: |
             docker login -u $DOCKER_USER -p $DOCKER_PASSWORD && \
             docker pull $DOCKER_IMAGE && \
             (docker stop $CONTAINER_NAME || true) && \
